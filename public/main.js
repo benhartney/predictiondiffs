@@ -1,5 +1,41 @@
 window.now = new Date()
 
+function convertDaysToYearsMonthsDays(value) {
+  var year, months, week, days;
+
+  year = value >= 365 ? Math.floor(value / 365) : 0;
+  value = year ? value - (year*365) : value;
+
+  months = value >= 30 ? Math.floor((value % 365) / 30) : 0;
+  value = months ? value - (months*30) : value;
+
+  week = value >= 7 ? Math.floor((value % 365) / 7) : 0;
+  value = week ? value - (week*7) : value;
+
+  days = value < 7 ? Math.floor((value % 365) % 7) : 0;
+
+  var returnString = ''
+
+  if (year > 0) {
+    returnString = year + 'y'
+  }
+
+  if (months > 0) {
+    returnString = returnString + ' ' + months + 'm'
+  }
+
+  if (week > 0) {
+    returnString = returnString + ' ' + week + 'w'
+  }
+
+  if (days > 0) {
+    returnString = returnString + ' ' + week + 'd'
+  }
+
+  return returnString.trim()
+
+}
+
 function dateDifferenceInDays(date1, date2) {
   var oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
   var firstDate = new Date(date1);
@@ -524,7 +560,7 @@ function difference_string_for_most_likely_outcomes(from, to, question_type) {
     var absPercentageDiff = absolutePercentageDifferenceForDates(from, to)
     // todo: factor in the minimal setting
     if (diff > 0) {
-      var possibleReturnString = '<b>(' + diff + ' days (' + absPercentageDiff + '%) later)</b>'
+      var possibleReturnString = '<b>(' + convertDaysToYearsMonthsDays(diff) + ' days (' + absPercentageDiff + '%) later)</b>'
       if (minimum_news_level_storage === 'small') {
         returnString = possibleReturnString
       } else if (minimum_news_level_storage === 'medium') {
@@ -543,7 +579,7 @@ function difference_string_for_most_likely_outcomes(from, to, question_type) {
     } else if (diff === 0) {
       returnString = window.zero_diff_string_for_difference_string_v2
     } else {
-      var possibleReturnString = '<b>(' + Math.abs(diff) + ' days (' + absPercentageDiff + '%) sooner)</b>'
+      var possibleReturnString = '<b>(' + convertDaysToYearsMonthsDays(Math.abs(diff)) + ' (' + absPercentageDiff + '%) sooner)</b>'
       if (minimum_news_level_storage === 'small') {
         returnString = possibleReturnString
       } else if (minimum_news_level_storage === 'medium') {
@@ -651,7 +687,7 @@ function difference_string_for_news(from, to, question_type) {
     var diff = dateDifferenceInDays(from,to)
     var absPercentageDiff = absolutePercentageDifferenceForDates(from, to)
     if (diff > 0) {
-      var possibleReturnString = '<b>' + diff + ' days (' + absPercentageDiff + '%) later</b> (' + from.toISOString().split('T')[0] + ' -> ' + to.toISOString().split('T')[0] + ')'
+      var possibleReturnString = '<b>' + convertDaysToYearsMonthsDays(diff) + ' (' + absPercentageDiff + '%) later</b> (' + from.toISOString().split('T')[0] + ' -> ' + to.toISOString().split('T')[0] + ')'
       if (minimum_news_level_storage === 'small') {
         returnString = possibleReturnString
       } else if (minimum_news_level_storage === 'medium') {
@@ -670,7 +706,7 @@ function difference_string_for_news(from, to, question_type) {
     } else if (diff === 0) {
       returnString = 'never see this'
     } else {
-      var possibleReturnString = '<b>' + Math.abs(diff) + ' days (' + absPercentageDiff + '%) sooner</b> (' + from.toISOString().split('T')[0] + ' -> ' + to.toISOString().split('T')[0] + ')'
+      var possibleReturnString = '<b>' + convertDaysToYearsMonthsDays(Math.abs(diff)) + ' (' + absPercentageDiff + '%) sooner</b> (' + from.toISOString().split('T')[0] + ' -> ' + to.toISOString().split('T')[0] + ')'
       if (minimum_news_level_storage === 'small') {
         returnString = possibleReturnString
       } else if (minimum_news_level_storage === 'medium') {
