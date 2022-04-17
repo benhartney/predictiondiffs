@@ -336,6 +336,15 @@ window.sets = [
         html_id: 'ai',
         questions: [
             {
+                type: 'binary',
+                metaculus_id: "608",
+                title_baseline: "Moore's Law ends by 2025",
+                title_inverted: "Moore's Law doesn't end by 2025",
+                period_end_date: '2025-01-01',
+                periodless_title: "Moore's Law has ended by this time",
+                periodless_title_inverted: "Moore's Law has not ended by this time"
+            },
+            {
                 type: 'date',
                 metaculus_id: "3479",
                 title_baseline: "First weakly general AI system devised, tested, and publicly known of"
@@ -382,15 +391,6 @@ window.sets = [
             },
             {
                 type: 'binary',
-                metaculus_id: "608",
-                title_baseline: "Moore's Law ends by 2025",
-                title_inverted: "Moore's Law doesn't end by 2025",
-                period_end_date: '2025-01-01',
-                periodless_title: "Moore's Law has ended by this time",
-                periodless_title_inverted: "Moore's Law has not ended by this time"
-            },
-            {
-                type: 'binary',
                 metaculus_id: "10621",
                 title_baseline: "Elon Musk is Twitter's CEO before 2025",
                 title_inverted: "Elon Musk is not Twitter's CEO before 2025",
@@ -424,6 +424,33 @@ window.sets = [
                 period_end_date: '2024-11-05',
                 periodless_title: "Hunter Biden has been indicted by this time",
                 periodless_title_inverted: "Hunter Biden has not been indicted by this time"
+            },
+            {
+                type: 'binary',
+                metaculus_id: "5717",
+                title_baseline: "Trump wins 2024 election",
+                title_inverted: "Trump doesn't win 2024 election",
+                period_end_date: '2025-01-01',
+                periodless_title: "Trump has won the 2024 election",
+                periodless_title_inverted: "Trump has not won the 2024 election"
+            },
+            {
+                type: 'binary',
+                metaculus_id: "6478",
+                title_baseline: "A Democrat wins 2024 election",
+                title_inverted: "A Democrat doesn't win 2024 election",
+                period_end_date: '2025-01-21',
+                periodless_title: "A Democrat has won the 2024 election",
+                periodless_title_inverted: "A Democrat has not won the 2024 election"
+            },
+            {
+                type: 'binary',
+                metaculus_id: "5687",
+                title_baseline: "Trump indicted for obstruction of justice by 2025",
+                title_inverted: "Trump not indicted for obstruction of justice by 2025",
+                period_end_date: '2026-01-01',
+                periodless_title: "Trump indicted for obstruction of justice by this time",
+                periodless_title_inverted: "Trump not indicted for obstruction of justice by this time"
             }
         ]
     },

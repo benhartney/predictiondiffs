@@ -112,9 +112,9 @@ function getPrediction(prediction, type, scale) {
     var min = scale.min
     var derivRatio = scale.deriv_ratio
     if (derivRatio === 1) {
-      return (prediction.community_prediction.q2 * (max - min) + min).toFixed(2)
+      return Math.round((prediction.community_prediction.q2 * (max - min) + min) * 100) / 100
     } else {
-      return (logScale(prediction.community_prediction.q2, min, max, derivRatio)).toFixed(2)
+      return Math.round((logScale(prediction.community_prediction.q2, min, max, derivRatio)) * 100) / 100
     }
     
   }
@@ -520,7 +520,7 @@ function difference_string_for_most_likely_outcomes(from, to, question_type) {
   var returnString = ""
 
   if (question_type === 'amount') {
-    var diff = to - from
+    var diff = Math.round((to - from) * 100) / 100
     var absPercentageDiff = absolutePercentageDifferenceForAmount(from, to)
     if (diff > 0) {
       var possibleReturnString = '<b>(+' + diff + ', +' + absPercentageDiff + '%)</b>'
@@ -648,7 +648,7 @@ function difference_string_for_news(from, to, question_type) {
   
   var returnString = ""
   if (question_type === 'amount') {
-    var diff = to - from
+    var diff = Math.round((to - from) * 100) / 100
     var absPercentageDiff = absolutePercentageDifferenceForAmount(from, to)
     if (diff > 0) {
       var possibleReturnString = '<b>+' + diff + ', +' + absPercentageDiff + '%</b> (' + from + ' -> ' + to + ')'
