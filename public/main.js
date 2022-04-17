@@ -318,7 +318,6 @@ function convetPredictionsToGroupedByDate(predictions) {
 }
 
 function mainFunction(start_datetime){
-  console.log('mainFunction')
 
   $('.changesInnerBinaryHeader, .changesInnerAmountHeader, .changesInnerDateHeader, .currentInnerInnerBinaryHeader, .currentInnerInnerAmountHeader, .currentInnerInnerDateHeader').hide()
   $('.changesInnerBinary, .changesInnerAmount, .changesInnerDate, .currentInnerInnerBinary, .currentInnerInnerAmount, .currentInnerInnerDate, .currentCalendarInner').empty()
@@ -329,20 +328,15 @@ function mainFunction(start_datetime){
   window.sets_painted = 0
 
   window.sets.forEach(function (set, set_index) {
-    console.log('set')
 
     window.response_count[set.html_id] = 0
     window.predictions_for_display[set.html_id] = []
 
     set.questions.forEach(function (question, question_index) {
-      console.log('question')
-      console.log(question)
 
       var response = _.find(window.data_from_api, function(num){
         return num.id == question.metaculus_id
       }).data;
-      console.log('response')
-      console.log(response)
 
 
       window.response_count[set.html_id] = window.response_count[set.html_id] + 1
@@ -835,7 +829,6 @@ $(document).ready(function() {
   $('.spinner-border').show()
   $.get("/questions", function( response ) {
     window.data_from_api = response
-    console.log(window.data_from_api)
     if (last_visit_storage === null) {
       $("#1w-button").click()
     } else {
