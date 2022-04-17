@@ -4,6 +4,33 @@ window.sets = [
         html_id: 'ukraine-russia-war',
         questions: [
             {
+                type: 'binary',
+                metaculus_id: "10255",
+                title_baseline: "Sweden initiates joining NATO in 2022",
+                title_inverted: "Sweden does not initiate joining NATO in 2022",
+                period_end_date: '2023-01-01',
+                periodless_title: "Sweden has initiated joining NATO by this time",
+                periodless_title_inverted: "Sweden has not initiated joining NATO by this time"
+            },
+            {
+                type: 'binary',
+                metaculus_id: "10084",
+                title_baseline: "Sweden joins NATO by 2024",
+                title_inverted: "Sweden does not join NATO by 2024",
+                period_end_date: '2024-01-01',
+                periodless_title: "Sweden has joined NATO by this time",
+                periodless_title_inverted: "Sweden has joined NATO by this time"
+            },
+            {
+                type: 'binary',
+                metaculus_id: "10085",
+                title_baseline: "Finland joins NATO by 2024",
+                title_inverted: "Finland does not join NATO by 2024",
+                period_end_date: '2024-01-01',
+                periodless_title: "Finland has joined NATO by this time",
+                periodless_title_inverted: "Finland has joined NATO by this time"
+            },
+            {
                 type: 'amount',
                 metaculus_id: "10283",
                 title_baseline: "Civilian Casualties Before May 2022",
@@ -14,7 +41,7 @@ window.sets = [
                 type: 'amount',
                 metaculus_id: "10041",
                 title_baseline: "# of Anti-War Protest Arrests in Russia before 2023",
-                period_end_date: '2022-12-31',
+                period_end_date: '2023-01-01',
                 periodless_title: "# of Anti-War Protest Arrests in Russia"
             },
             {
@@ -49,7 +76,7 @@ window.sets = [
                 metaculus_id: "10043",
                 title_baseline: "Ukraine joins EU by 2030",
                 title_inverted: "Ukraine does not join EU by 2030",
-                period_end_date: '2029-12-31',
+                period_end_date: '2030-01-01',
                 periodless_title: "Ukraine has joined EU by this time",
                 periodless_title_inverted: "Ukraine has joined EU by this time"
             },
@@ -85,7 +112,7 @@ window.sets = [
                 metaculus_id: "9930",
                 title_baseline: "Russia will invade another country in 2022",
                 title_inverted: "Russia will not invade another country in 2022",
-                period_end_date: '2022-12-31',
+                period_end_date: '2023-01-01',
                 periodless_title: "Russia has invaded another country by this time",
                 periodless_title_inverted: "Russia has not invaded another country by this time"
             },
@@ -94,7 +121,7 @@ window.sets = [
                 metaculus_id: "2534",
                 title_baseline: "World War Three before 2050",
                 title_inverted: "No World War Three before 2050",
-                period_end_date: '2049-12-31',
+                period_end_date: '2050-01-01',
                 periodless_title: "World War Three has occurred by this time",
                 periodless_title_inverted: "World War Three has not occurred by this time"
             },
@@ -103,7 +130,7 @@ window.sets = [
                 metaculus_id: "10052",
                 title_baseline: "NATO declares a No-Fly Zone anywhere in Ukraine before 2023",
                 title_inverted: "NATO does not declare a No-Fly Zone anywhere in Ukraine before 2023",
-                period_end_date: '2022-12-31',
+                period_end_date: '2023-01-01',
                 periodless_title: "NATO has declared a No-Fly Zone anywhere in Ukraine by this time",
                 periodless_title_inverted: "NATO has not declared a No-Fly Zone anywhere in Ukraine by this time",
             },
@@ -130,7 +157,7 @@ window.sets = [
                 metaculus_id: "9937",
                 title_baseline: "More than 50k people killed in the Russo-Ukrainian War in 2022",
                 title_inverted: "Less than 50k people killed in the Russo-Ukrainian War in 2022",
-                period_end_date: '2022-12-31',
+                period_end_date: '2023-01-01',
                 periodless_title: "More than 50k people killed in the Russo-Ukrainian War by this time",
                 periodless_title_inverted: "Less than 50k people killed in the Russo-Ukrainian War by this time"
             },
@@ -139,7 +166,7 @@ window.sets = [
                 metaculus_id: "10001",
                 title_baseline: "More than 50k civilians die in at least one major Ukrainian city in 2022",
                 title_inverted: "Less than 50k civilians die in each major Ukrainian city in 2022",
-                period_end_date: '2022-12-31',
+                period_end_date: '2023-01-01',
                 periodless_title: "More than 50k civilians die in at least one major Ukrainian city by this time",
                 periodless_title_inverted: "Less than 50k civilians die in each major Ukrainian city by this time"
             },
@@ -157,7 +184,7 @@ window.sets = [
                 metaculus_id: "10050",
                 title_baseline: "Bilateral cease-fire or peace agreement before 2023",
                 title_inverted: "No bilateral cease-fire or peace agreement before 2023",
-                period_end_date: '2022-12-31',
+                period_end_date: '2023-01-01',
                 periodless_title: "Bilateral cease-fire or peace agreement by this time",
                 periodless_title_inverted: "No bilateral cease-fire or peace agreement by this time"
             },
@@ -166,7 +193,7 @@ window.sets = [
                 metaculus_id: "10282",
                 title_baseline: "Russia defaults on its debt in 2022",
                 title_inverted: "Russia does not default on its debt in 2022",
-                period_end_date: '2022-12-31',
+                period_end_date: '2023-01-01',
                 periodless_title: "Russia has defaulted on its debt by this time",
                 periodless_title_inverted: "Russia has not defaulted on its debt by this time"
             },
@@ -175,7 +202,7 @@ window.sets = [
                 metaculus_id: "9993",
                 title_baseline: "3+ European countries refuse to buy natural gas from Russia in 2022",
                 title_inverted: "Less than 3 European countries refuse to buy natural gas from Russia in 2022",
-                period_end_date: '2022-12-31',
+                period_end_date: '2023-01-01',
                 periodless_title: "3+ European countries have refused to buy natural gas from Russia by this time",
                 periodless_title_inverted: "3+ European countries have not refused to buy natural gas from Russia by this time"
             },
@@ -184,7 +211,7 @@ window.sets = [
                 metaculus_id: "10269",
                 title_baseline: "Kyiv under Russian control by 2023",
                 title_inverted: "Kyiv not under Russian control by 2023",
-                period_end_date: '2022-12-31',
+                period_end_date: '2023-01-01',
                 periodless_title: "Kyiv under Russian control by this time",
                 periodless_title_inverted: "Kyiv not under Russian control by this time"
             },
@@ -193,7 +220,7 @@ window.sets = [
                 metaculus_id: "9522",
                 title_baseline: "Russia invade or annex all or part of Belarus in 2022",
                 title_inverted: "Russia does not invade or annex any part of Belarus in 2022",
-                period_end_date: '2022-12-31',
+                period_end_date: '2023-01-01',
                 periodless_title: "Russia has invaded or annexed all or part of Belarus by this time",
                 periodless_title_inverted: "Russia has not invaded or annexed all or part of Belarus by this time"
             },
@@ -211,7 +238,7 @@ window.sets = [
                 metaculus_id: "10448",
                 title_baseline: "Russia uses chemical weapons in Ukraine in 2022",
                 title_inverted: "Russia does not use chemical weapons in Ukraine in 2022",
-                period_end_date: '2022-12-31',
+                period_end_date: '2023-01-01',
                 periodless_title: "Russia has used chemical weapons in Ukraine by this time",
                 periodless_title_inverted: "Russia has not used chemical weapons in Ukraine by this time"
             }/*,
@@ -379,6 +406,39 @@ window.sets = [
                 period_end_date: '2075-01-01',
                 periodless_title: "Elon Musk has become world's first trillionaire by this time",
                 periodless_title_inverted: "Elon Musk has not become world's first trillionaire by this time"
+            },
+            {
+                type: 'binary',
+                metaculus_id: "2711",
+                title_baseline: "At least 1 EU country will have a Guaranteed Minimum Income before 2041",
+                title_inverted: "No EU country will have a Guaranteed Minimum Income before 2041",
+                period_end_date: '2041-01-01',
+                periodless_title: "At least 1 EU country will have had a Guaranteed Minimum Income by this time",
+                periodless_title_inverted: "No EU country will have had a Guaranteed Minimum Income by this time"
+            },
+            {
+                type: 'binary',
+                metaculus_id: "10541",
+                title_baseline: "Hunter Biden will be indicted before Nov 5, 2024",
+                title_inverted: "Hunter Biden will not be indicted before Nov 5, 2024",
+                period_end_date: '2024-11-05',
+                periodless_title: "Hunter Biden has been indicted by this time",
+                periodless_title_inverted: "Hunter Biden has not been indicted by this time"
+            }
+        ]
+    },
+    {
+        title: "Space",
+        html_id: 'space',
+        questions: [
+            {
+                type: 'binary',
+                metaculus_id: "3519",
+                title_baseline: "At least one million Martian residents by 2075",
+                title_inverted: "Less than one million Martian residents by 2075",
+                period_end_date: '2075-01-01',
+                periodless_title: "At least one million Martian residents by this time",
+                periodless_title_inverted: "Less than one million Martian residents by this time"
             }
         ]
     },
@@ -386,6 +446,20 @@ window.sets = [
         title: "Climate Change",
         html_id: 'climate-change',
         questions: [
+            {
+                type: 'amount',
+                metaculus_id: "605",
+                title_baseline: "Amount (in ˚C) of global warming in 2100",
+                period_end_date: '2100-01-01',
+                periodless_title: "Amount (in ˚C) of global warming",
+            },
+            {
+                type: 'amount',
+                metaculus_id: "7800",
+                title_baseline: "Sea level rise (in millimeters) by 2100",
+                period_end_date: '2100-01-01',
+                periodless_title: "Sea level rise (in millimeters)",
+            },
             {
                 type: 'date',
                 metaculus_id: "4614",
@@ -401,18 +475,54 @@ window.sets = [
                 metaculus_id: "9627",
                 title_baseline: "US withdraws from the Paris Climate Agreement before 2029 (if GOP Win 2024)",
                 title_inverted: "US does not withdraw from the Paris Climate Agreement before 2029 (if GOP Win 2024)",
-                period_end_date: '2028-12-31',
+                period_end_date: '2029-01-01',
                 periodless_title: "US has withdrawn from the Paris Climate Agreement (if GOP Win 2024)",
                 periodless_title_inverted: "US has not withdrawn from the Paris Climate Agreement (if GOP Win 2024)"
+            },
+            {
+                type: 'binary',
+                metaculus_id: "3410",
+                title_baseline: "Global atmospheric CO₂ concentration over the 2024 to 2027 period is on path to limit warming to 1.4°C by mid-century",
+                title_inverted: "Global atmospheric CO₂ concentration over the 2024 to 2027 period is not on path to limit warming to 1.4°C by mid-century",
+                period_end_date: '2028-01-01',
+                periodless_title: "Global atmospheric CO₂ concentration from 2024 to this time has been on path to limit warming to 1.4°C by mid-century",
+                periodless_title_inverted: "Global atmospheric CO₂ concentration from 2024 to this time has not been on path to limit warming to 1.4°C by mid-century"
             },
             {
                 type: 'binary',
                 metaculus_id: "3528",
                 title_baseline: "A geoengineering act of Congress becomes US federal law by the end of 2024",
                 title_inverted: "A geoengineering act of Congress does not become US federal law by the end of 2024",
-                period_end_date: '2024-12-31',
+                period_end_date: '2025-01-01',
                 periodless_title: "A geoengineering act of Congress has become US federal law by this time",
                 periodless_title_inverted: "A geoengineering act of Congress has not become US federal law by this time"
+            },
+            {
+                type: 'binary',
+                metaculus_id: "489",
+                title_baseline: "The European Union will meet its 2030 targets under the Paris Climate Treaty",
+                title_inverted: "The European Union will not meet its 2030 targets under the Paris Climate Treaty",
+                period_end_date: '2030-01-01',
+                periodless_title: "The European Union has met its 2030 targets under the Paris Climate Treaty",
+                periodless_title_inverted: "The European Union has not met its 2030 targets under the Paris Climate Treaty"
+            },
+            {
+                type: 'binary',
+                metaculus_id: "585",
+                title_baseline: "At least 2˚C of global warming by 2100",
+                title_inverted: "Less than 2˚C of global warming by 2100",
+                period_end_date: '2100-01-01',
+                periodless_title: "At least 2˚C of global warming by this time",
+                periodless_title_inverted: "Less than 2˚C of global warming by this time"
+            },
+            {
+                type: 'binary',
+                metaculus_id: "1539",
+                title_baseline: "At least 3.6˚C of global warming by 2100",
+                title_inverted: "Less than 3.6˚C of global warming by 2100",
+                period_end_date: '2100-01-01',
+                periodless_title: "At least 3.6˚C of global warming by this time",
+                periodless_title_inverted: "Less than 3.6˚C of global warming by this time"
             }
         ]
     }

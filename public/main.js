@@ -112,9 +112,9 @@ function getPrediction(prediction, type, scale) {
     var min = scale.min
     var derivRatio = scale.deriv_ratio
     if (derivRatio === 1) {
-      return Math.round(prediction.community_prediction.q2 * (max - min) + min)
+      return (prediction.community_prediction.q2 * (max - min) + min).toFixed(2)
     } else {
-      return Math.round(logScale(prediction.community_prediction.q2, min, max, derivRatio))
+      return (logScale(prediction.community_prediction.q2, min, max, derivRatio)).toFixed(2)
     }
     
   }
@@ -419,6 +419,10 @@ function mainFunction(start_datetime){
             response.title_short = question.title_baseline
             response.periodless_title = question.periodless_title
           }
+        } else if (question.type === 'amount') {
+          response.title = question.title_baseline
+          response.title_short = question.title_baseline
+          response.periodless_title = question.periodless_title
         } else {
           response.title = question.title_baseline
           response.title_short = question.title_baseline
