@@ -483,17 +483,18 @@ function difference_string_for_most_likely_outcomes(from, to, question_type) {
     var diff = to - from
     var absPercentageDiff = absolutePercentageDifferenceForAmount(from, to)
     if (diff > 0) {
+      var possibleReturnString = '<b>(+' + diff + ', +' + absPercentageDiff + '%)</b>'
       if (minimum_news_level_storage === 'small') {
-        returnString = '<b>(+' + diff + ', +' + absPercentageDiff + '%)</b>'
+        returnString = possibleReturnString
       } else if (minimum_news_level_storage === 'medium') {
         if (absPercentageDiff > 4) {
-          returnString = '<b>(+' + diff + ', +' + absPercentageDiff + '%)</b>'
+          returnString = possibleReturnString
         } else {
           returnString = window.zero_diff_string_for_difference_string_v2
         }
       } else if (minimum_news_level_storage === 'large') {
         if (absPercentageDiff > 9) {
-          returnString = '<b>(+' + diff + ', +' + absPercentageDiff + '%)</b>'
+          returnString = possibleReturnString
         } else {
           returnString = window.zero_diff_string_for_difference_string_v2
         }
@@ -501,17 +502,18 @@ function difference_string_for_most_likely_outcomes(from, to, question_type) {
     } else if (diff === 0) {
       returnString = window.zero_diff_string_for_difference_string_v2
     } else {
+      var possibleReturnString = '<b>(' + diff + ', -' + absPercentageDiff + '%)</b>'
       if (minimum_news_level_storage === 'small') {
-        returnString = '<b>(' + diff + ', -' + absPercentageDiff + '%)</b>'
+        returnString = possibleReturnString
       } else if (minimum_news_level_storage === 'medium') {
         if (absPercentageDiff > 4) {
-          returnString = '<b>(' + diff + ', -' + absPercentageDiff + '%)</b>'
+          returnString = possibleReturnString
         } else {
           returnString = window.zero_diff_string_for_difference_string_v2
         }
       } else if (minimum_news_level_storage === 'large') {
         if (absPercentageDiff > 9) {
-          returnString = '<b>(' + diff + ', -' + absPercentageDiff + '%)</b>'
+          returnString = possibleReturnString
         } else {
           returnString = window.zero_diff_string_for_difference_string_v2
         }
@@ -522,17 +524,18 @@ function difference_string_for_most_likely_outcomes(from, to, question_type) {
     var absPercentageDiff = absolutePercentageDifferenceForDates(from, to)
     // todo: factor in the minimal setting
     if (diff > 0) {
+      var possibleReturnString = '<b>(' + diff + ' days (' + absPercentageDiff + '%) later)</b>'
       if (minimum_news_level_storage === 'small') {
-        returnString = '<b>(' + diff + ' days (' + absPercentageDiff + '%) later)</b>'
+        returnString = possibleReturnString
       } else if (minimum_news_level_storage === 'medium') {
         if (absPercentageDiff > 4) {
-          returnString = '<b>(' + diff + ' days (' + absPercentageDiff + '%) later)</b>'
+          returnString = possibleReturnString
         } else {
           returnString = window.zero_diff_string_for_difference_string_v2
         }
       } else if (minimum_news_level_storage === 'large') {
         if (absPercentageDiff > 9) {
-          returnString = '<b>(' + diff + ' days (' + absPercentageDiff + '%) later)</b>'
+          returnString = possibleReturnString
         } else {
           returnString = window.zero_diff_string_for_difference_string_v2
         }
@@ -540,17 +543,18 @@ function difference_string_for_most_likely_outcomes(from, to, question_type) {
     } else if (diff === 0) {
       returnString = window.zero_diff_string_for_difference_string_v2
     } else {
+      var possibleReturnString = '<b>(' + Math.abs(diff) + ' days (' + absPercentageDiff + '%) sooner)</b>'
       if (minimum_news_level_storage === 'small') {
-        returnString = '<b>(' + Math.abs(diff) + ' days (' + absPercentageDiff + '%) sooner)</b>'
+        returnString = possibleReturnString
       } else if (minimum_news_level_storage === 'medium') {
         if (absPercentageDiff > 4) {
-          returnString = '<b>(' + Math.abs(diff) + ' days (' + absPercentageDiff + '%) sooner)</b>'
+          returnString = possibleReturnString
         } else {
           returnString = window.zero_diff_string_for_difference_string_v2
         }
       } else if (minimum_news_level_storage === 'large') {
         if (Math.abs(diff) > 9) {
-          returnString = '<b>(' + Math.abs(diff) + ' days (' + absPercentageDiff + '%) sooner)</b>'
+          returnString = possibleReturnString
         } else {
           returnString = window.zero_diff_string_for_difference_string_v2
         }
@@ -559,17 +563,18 @@ function difference_string_for_most_likely_outcomes(from, to, question_type) {
   } else if (question_type === 'binary') {
     var diff = to - from
     if (diff > 0) {
+      var possibleReturnString = '<b>(+' + diff + ')</b>'
       if (minimum_news_level_storage === 'small') {
-        returnString = '<b>(+' + diff + ')</b>'
+        returnString = possibleReturnString
       } else if (minimum_news_level_storage === 'medium') {
         if (Math.abs(diff) > 4) {
-          returnString = '<b>(+' + diff + ')</b>'
+          returnString = possibleReturnString
         } else {
           returnString = window.zero_diff_string_for_difference_string_v2
         }
       } else if (minimum_news_level_storage === 'large') {
         if (Math.abs(diff) > 9) {
-          returnString = '<b>(+' + diff + ')</b>'
+          returnString = possibleReturnString
         } else {
           returnString = window.zero_diff_string_for_difference_string_v2
         }
@@ -577,17 +582,18 @@ function difference_string_for_most_likely_outcomes(from, to, question_type) {
     } else if (diff === 0) {
       returnString = window.zero_diff_string_for_difference_string_v2
     } else {
+      var possibleReturnString = '<b>(' + diff + ')</b>'
       if (minimum_news_level_storage === 'small') {
-        returnString = '<b>(' + diff + ')</b>'
+        returnString = possibleReturnString
       } else if (minimum_news_level_storage === 'medium') {
         if (Math.abs(diff) > 4) {
-          returnString = '<b>(' + diff + ')</b>'
+          returnString = possibleReturnString
         } else {
           returnString = window.zero_diff_string_for_difference_string_v2
         }
       } else if (minimum_news_level_storage === 'large') {
         if (Math.abs(diff) > 9) {
-          returnString = '<b>(' + diff + ')</b>'
+          returnString = possibleReturnString
         } else {
           returnString = window.zero_diff_string_for_difference_string_v2
         }
@@ -605,17 +611,18 @@ function difference_string_for_news(from, to, question_type) {
     var diff = to - from
     var absPercentageDiff = absolutePercentageDifferenceForAmount(from, to)
     if (diff > 0) {
+      var possibleReturnString = '<b>+' + diff + ', +' + absPercentageDiff + '%</b> (' + from + ' -> ' + to + ')'
       if (minimum_news_level_storage === 'small') {
-        returnString = '<b>+' + diff + ', +' + absPercentageDiff + '%</b> (' + from + ' -> ' + to + ')'
+        returnString = possibleReturnString
       } else if (minimum_news_level_storage === 'medium') {
         if (absPercentageDiff > 4) {
-          returnString = '<b>+' + diff + ', +' + absPercentageDiff + '%</b> (' + from + ' -> ' + to + ')'
+          returnString = possibleReturnString
         } else {
           returnString = 'never see this'
         }
       } else if (minimum_news_level_storage === 'large') {
         if (absPercentageDiff > 9) {
-          returnString = '<b>+' + diff + ', +' + absPercentageDiff + '%</b> (' + from + ' -> ' + to + ')'
+          returnString = possibleReturnString
         } else {
           returnString = 'never see this'
         }
@@ -623,17 +630,18 @@ function difference_string_for_news(from, to, question_type) {
     } else if (diff === 0) { // this is not used?
       returnString = 'never see this'
     } else {
+      var possibleReturnString = '<b>' + diff + ', -' + absPercentageDiff + '%</b> (' + from + ' -> ' + to + ')'
       if (minimum_news_level_storage === 'small') {
-        returnString = '<b>' + diff + ', -' + absPercentageDiff + '%</b> (' + from + ' -> ' + to + ')'
+        returnString = possibleReturnString
       } else if (minimum_news_level_storage === 'medium') {
         if (absPercentageDiff > 4) {
-          returnString = '<b>' + diff + ', -' + absPercentageDiff + '%</b> (' + from + ' -> ' + to + ')'
+          returnString = possibleReturnString
         } else {
           returnString = 'never see this'
         }
       } else if (minimum_news_level_storage === 'large') {
         if (absPercentageDiff > 9) {
-          returnString = '<b>' + diff + ', -' + absPercentageDiff + '%</b> (' + from + ' -> ' + to + ')'
+          returnString = possibleReturnString
         } else {
           returnString = 'never see this'
         }
@@ -643,17 +651,18 @@ function difference_string_for_news(from, to, question_type) {
     var diff = dateDifferenceInDays(from,to)
     var absPercentageDiff = absolutePercentageDifferenceForDates(from, to)
     if (diff > 0) {
+      var possibleReturnString = '<b>' + diff + ' days (' + absPercentageDiff + '%) later</b> (' + from.toISOString().split('T')[0] + ' -> ' + to.toISOString().split('T')[0] + ')'
       if (minimum_news_level_storage === 'small') {
-        returnString = '<b>' + diff + ' days (' + absPercentageDiff + '%) later</b> (' + from.toISOString().split('T')[0] + ' -> ' + to.toISOString().split('T')[0] + ')'
+        returnString = possibleReturnString
       } else if (minimum_news_level_storage === 'medium') {
         if (absPercentageDiff > 4) {
-          returnString = '<b>' + diff + ' days (' + absPercentageDiff + '%) later</b> (' + from.toISOString().split('T')[0] + ' -> ' + to.toISOString().split('T')[0] + ')'
+          returnString = possibleReturnString
         } else {
           returnString = 'never see this'
         }
       } else if (minimum_news_level_storage === 'large') {
         if (absPercentageDiff > 9) {
-          returnString = '<b>' + diff + ' days (' + absPercentageDiff + '%) later</b> (' + from.toISOString().split('T')[0] + ' -> ' + to.toISOString().split('T')[0] + ')'
+          returnString = possibleReturnString
         } else {
           returnString = 'never see this'
         }
@@ -661,17 +670,18 @@ function difference_string_for_news(from, to, question_type) {
     } else if (diff === 0) {
       returnString = 'never see this'
     } else {
+      var possibleReturnString = '<b>' + Math.abs(diff) + ' days (' + absPercentageDiff + '%) sooner</b> (' + from.toISOString().split('T')[0] + ' -> ' + to.toISOString().split('T')[0] + ')'
       if (minimum_news_level_storage === 'small') {
-        returnString = '<b>' + Math.abs(diff) + ' days (' + absPercentageDiff + '%) sooner</b> (' + from.toISOString().split('T')[0] + ' -> ' + to.toISOString().split('T')[0] + ')'
+        returnString = possibleReturnString
       } else if (minimum_news_level_storage === 'medium') {
         if (absPercentageDiff > 4) {
-          returnString = '<b>' + Math.abs(diff) + ' days (' + absPercentageDiff + '%) sooner</b> (' + from.toISOString().split('T')[0] + ' -> ' + to.toISOString().split('T')[0] + ')'
+          returnString = possibleReturnString
         } else {
           returnString = 'never see this'
         }
       } else if (minimum_news_level_storage === 'large') {
         if (absPercentageDiff > 9) {
-          returnString = '<b>' + Math.abs(diff) + ' days (' + absPercentageDiff + '%) sooner</b> (' + from.toISOString().split('T')[0] + ' -> ' + to.toISOString().split('T')[0] + ')'
+          returnString = possibleReturnString
         } else {
           returnString = 'never see this'
         }
@@ -680,17 +690,18 @@ function difference_string_for_news(from, to, question_type) {
   } else if (question_type === 'binary') {
     var diff = to - from
     if (diff > 0) {
+      var possibleReturnString = '<b>+' + diff + '</b> (' + from + '% -> ' + to + '%)'
       if (minimum_news_level_storage === 'small') {
-        returnString = '<b>+' + diff + '</b> (' + from + '% -> ' + to + '%)'
+        returnString = possibleReturnString
       } else if (minimum_news_level_storage === 'medium') {
         if (Math.abs(diff) > 4) {
-          returnString = '<b>+' + diff + '</b> (' + from + '% -> ' + to + '%)'
+          returnString = possibleReturnString
         } else {
           returnString = 'never see this'
         }
       } else if (minimum_news_level_storage === 'large') {
         if (Math.abs(diff) > 9) {
-          returnString = '<b>+' + diff + '</b> (' + from + '% -> ' + to + '%)'
+          returnString = possibleReturnString
         } else {
           returnString = 'never see this'
         }
@@ -698,17 +709,18 @@ function difference_string_for_news(from, to, question_type) {
     } else if (diff === 0) { // this is not used?
       returnString = 'never see this'
     } else {
+      var possibleReturnString = '<b>' + diff + '</b> (' + from + '% -> ' + to + '%)'
       if (minimum_news_level_storage === 'small') {
-        returnString = '<b>' + diff + '</b> (' + from + '% -> ' + to + '%)'
+        returnString = possibleReturnString
       } else if (minimum_news_level_storage === 'medium') {
         if (Math.abs(diff) > 4) {
-          returnString = '<b>' + diff + '</b> (' + from + '% -> ' + to + '%)'
+          returnString = possibleReturnString
         } else {
           returnString = 'never see this'
         }
       } else if (minimum_news_level_storage === 'large') {
         if (Math.abs(diff) > 9) {
-          returnString = '<b>' + diff + '</b> (' + from + '% -> ' + to + '%)'
+          returnString = possibleReturnString
         } else {
           returnString = 'never see this'
         }
