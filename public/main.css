@@ -1,0 +1,7 @@
+.tab-pane {
+    border-left:1px solid;
+    border-right:1px solid;
+    border-bottom:1px solid;
+    border-color: #dee2e6;
+    padding:.5rem!important;
+}

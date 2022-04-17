@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title>PredictionDiffs</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XM7JGQYFB5"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-XM7JGQYFB5');
+    </script>
+
+  </head>
+  <body>
+    
+    <div class="container">
+      <header class="d-flex flex-wrap justify-content-center py-3 border-bottom">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+          <span class="fs-4 text-center">PredictionDiffs</span>
+        </a>
+
+        <ul class="nav nav-pills">
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal" style="cursor: pointer;">What is this?</a>
+          </li>
+          <li class="nav-item" id='twitterLink'>
+            <a href="https://twitter.com/rareatoms" class="nav-link">Twitter</a>
+          </li>
+        </ul>
+      </header>
+    </div>
+
+
+    <div class="col-lg-10 mx-auto p-3 py-md-4">
+
+
+      <main>
+
+        <div class="btn-group mb-3 mt-3" role="group">
+          <input type="radio" class="btn-check" name="btnradio" id="2w-button" autocomplete="off">
+          <label class="btn btn-outline-primary btn-sm" for="2w-button">Last 2w</label>
+          <input type="radio" class="btn-check" name="btnradio" id="1w-button" autocomplete="off" checked>
+          <label class="btn btn-outline-primary btn-sm" for="1w-button">Last 1w</label>
+          <input type="radio" class="btn-check" name="btnradio" id="3d-button" autocomplete="off">
+          <label class="btn btn-outline-primary btn-sm" for="3d-button">Last 3d</label>
+          <input type="radio" class="btn-check" name="btnradio" id="24h-button" autocomplete="off">
+          <label class="btn btn-outline-primary btn-sm" for="24h-button">Last 24h</label>
+          <input type="radio" class="btn-check" name="btnradio" id="last-visit-button" autocomplete="off">
+          <label class="btn btn-outline-primary btn-sm" for="last-visit-button">Since your last visit<span class='last-visit-text'></span></label>
+        </div>
+        <div class='mb-3'>
+          Only show news that is
+          <div class="btn-group" role="group">
+            <input type="radio" class="btn-check" name="minimumNewsLevelRadios" id="minimumNewsLevelRadioSmall" autocomplete="off" checked data-value-to-save="small">
+            <label class="btn btn-outline-primary btn-sm" for="minimumNewsLevelRadioSmall">Small+ (1+)</label>
+            <input type="radio" class="btn-check" name="minimumNewsLevelRadios" id="minimumNewsLevelRadioMedium" autocomplete="off" data-value-to-save="medium">
+            <label class="btn btn-outline-primary btn-sm" for="minimumNewsLevelRadioMedium">Medium+ (5+)</label>
+            <input type="radio" class="btn-check" name="minimumNewsLevelRadios" id="minimumNewsLevelRadioLarge" autocomplete="off" data-value-to-save="large">
+            <label class="btn btn-outline-primary btn-sm" for="minimumNewsLevelRadioLarge">Large+ (10+)</label>
+          </div>
+        </div>
+        <div class="form-check form-switch mb-3">
+          <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+          <label class="form-check-label" for="flexSwitchCheckDefault" id='flexSwitchCheckDefaultLabel'>Show news when looking at Most Likely Outcomes</label>
+        </div>
+
+        <ul class="nav nav-tabs" role="tablist" id="set-tabs"></ul>
+
+        <div class="tab-content" id="set-tab-contents"></div>
+
+
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">What is this?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="accordion accordion-flush" id="accordionFlushExample">
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        I'm already sold on predictions as a way to follow news
+                      </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                      <div class="accordion-body">
+                        <p>
+                          This website displays predictions from various source (currently just Metaculus), to make following the news easier and clearer.
+                        </p>
+                        <ul class='mb-3'>
+                          <li>See multiple event predictions at once</li>
+                          <li>See how predictions have changed - the core experience is to come here every x days, and the first thing you will see is how the predictions have changed since your last visit</li>
+                          <li>Options to filter out smaller changes, so you can see the most important changes</li>
+                          <li>Any prediction that is <50% gets inverted, so that you're always seeing 50%+ predictions (aka the most likely outcomes)</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingTwo">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                        I'm not familiar with predictions as a way to follow news
+                      </button>
+                    </h2>
+                    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                      <div class="accordion-body">
+                        <p>
+                          When we use social media for news, or go to a news website, we're doing a few things:
+                        </p>
+                        <ol class='mb-3' type="a">
+                          <li>learning what has happened</li>
+                          <li>getting a more visceral or emotional understanding of what has happened</li>
+                          <li>finding out what will probably happen in the future</li>
+                          <li>entertaining or distracting ourselves</li>
+                        </ol>
+                        <p>
+                          This website is focused on "c. finding out what will probably happen in the future". It will give you a more accurate understanding of what will probably happen, and allows you to get that without all the other stuff in the list above.
+                        </p>
+                        <p>
+                          It does this by displaying existing predictions from various sources, and displaying them in ways that make them more news-like.
+                        </p>
+                        <p>
+                          If you'd like to understand more about why these types of predictions are generally accurate, see <a href="https://inews.co.uk/news/world/russia-ukraine-crisis-super-forecasters-putin-troops-1475721" target="_blank">here</a>.
+                        </p>
+                        <p>
+                          More information will be added to this section over time.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </main>
+
+    </div>
+
+    <script id="set-tab-content-template" type="text/x-handlebars-template">
+      <div class="tab-pane fade set-tab-content-temp" id="{{html_id}}" role="tabpanel" aria-labelledby="{{html_id}}-tab">
+        <ul class="nav nav-tabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="{{html_id}}-changes-tab" data-bs-toggle="tab" data-bs-target="#{{html_id}}-changes" type="button" role="tab" aria-controls="{{html_id}}-changes" aria-selected="true">News</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="{{html_id}}-current-tab" data-bs-toggle="tab" data-bs-target="#{{html_id}}-current" type="button" role="tab" aria-controls="{{html_id}}-current" aria-selected="false">Most Likely Outcomes (list)</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="{{html_id}}-current-calendar-tab" data-bs-toggle="tab" data-bs-target="#{{html_id}}-current-calendar" type="button" role="tab" aria-controls="{{html_id}}-current-calendar" aria-selected="false">Most Likely Outcomes (calendar)</button>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="{{html_id}}-changes" role="tabpanel" aria-labelledby="{{html_id}}-changes-tab">
+            <div class="mt-1">
+              <div class="spinner-border" id='{{html_id}}-loadingSpinner1' role="status"></div>
+              <h5 id='{{html_id}}-changesInnerBinaryHeader' class="changesInnerBinaryHeader">General (ordered by change size)</h5>
+              <div id='{{html_id}}-changesInnerBinary' class='changesInnerBinary'></div>
+              <h5 id='{{html_id}}-changesInnerAmountHeader' class="changesInnerAmountHeader">Amounts (ordered by change %)</h5>
+              <div id='{{html_id}}-changesInnerAmount' class="changesInnerAmount"></div>
+              <h5 id='{{html_id}}-changesInnerDateHeader' class="changesInnerDateHeader">Dates (ordered by change %)</h5>
+              <div id='{{html_id}}-changesInnerDate' class="changesInnerDate"></div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="{{html_id}}-current" role="tabpanel" aria-labelledby="{{html_id}}-current-tab">
+            <div id='{{html_id}}-currentInner' class='mt-1'>
+              <h5 id='{{html_id}}-currentInnerInnerBinaryHeader' class="currentInnerInnerBinaryHeader">Binary outcomes (ordered by likelihood)</h5>
+              <div class="spinner-border" id='{{html_id}}-loadingSpinner2' role="status"></div>
+              <div id='{{html_id}}-currentInnerInnerBinary' class="currentInnerInnerBinary"></div>
+              <h5 id='{{html_id}}-currentInnerInnerAmountHeader' class="currentInnerInnerAmountHeader mt-3">Amounts (alphabetical)</h5>
+              <div id='{{html_id}}-currentInnerInnerAmount' class="currentInnerInnerAmount"></div>
+              <h5 id='{{html_id}}-currentInnerInnerDateHeader' class="currentInnerInnerDateHeader mt-3">Projected dates (chronological)</h5>
+              <div id='{{html_id}}-currentInnerInnerDate' class="currentInnerInnerDate"></div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="{{html_id}}-current-calendar" role="tabpanel" aria-labelledby="{{html_id}}-current-calendar-tab">
+            <div class="spinner-border" id='{{html_id}}-loadingSpinner3' role="status"></div>
+            <div id='{{html_id}}-currentCalendarInner' class='mt-1 currentCalendarInner'></div>
+          </div>
+        </div>
+      </div>
+    </script>
+
+
+
+    <script id="set-tab-template-after-first" type="text/x-handlebars-template">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link set-tab-temp" id="{{html_id}}-tab" data-bs-toggle="tab" data-bs-target="#{{html_id}}" type="button" role="tab" aria-controls="{{html_id}}" aria-selected="false">{{title}}</button>
+      </li>
+    </script>
+
+    <script id="change-template" type="text/x-handlebars-template">
+      <div class='mb-2'>
+        {{#if showSetTitle}}{{set_title}}: {{/if}}{{this.title}}: {{{this.diff_string}}}
+        <a href='https://www.metaculus.com/questions/{{this.question_id}}' target="_blank">
+          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+            <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
+          </svg>
+        </a>
+      </div>
+    </script>
+
+    <script id="current-template" type="text/x-handlebars-template">
+      <div class='mb-2'>
+        {{#if showSetTitle}}{{set_title}}: {{/if}}{{this.title}}: <b>{{this.current_value_for_display}}</b> <span class='currentSituationMovement'>{{{this.diff_string_no_value_for_no_change}}}</span>
+        <a href='https://www.metaculus.com/questions/{{this.question_id}}' target="_blank">
+          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+            <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
+          </svg>
+        </a>
+      </div>
+    </script>
+
+    <script id="current-calendar-template-date" type="text/x-handlebars-template">
+      <div>
+        <b>{{date_string}}</b>
+      </div>
+    </script>
+
+    <script id="current-calendar-template" type="text/x-handlebars-template">
+      <div class='mb-2'>
+        {{#if showSetTitle}}{{set_title}}: {{/if}}{{periodless_title}}{{#if show_current_value_for_display}}: {{current_value_for_display}}{{/if}}<span class='currentSituationMovement'> {{{this.diff_string_no_value_for_no_change}}}</span>
+        <a href='https://www.metaculus.com/questions/{{this.question_id}}' target="_blank">
+          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+            <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
+          </svg>
+        </a>
+      </div>
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script src='https://cdn.plot.ly/plotly-2.9.0.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src='https://cdn.jsdelivr.net/npm/underscore@1.13.2/underscore-umd-min.js'></script>
+    <script src="data.js"></script>
+    <script src="main.js"></script>
+    
+
+
+      
+  </body>
+</html>
