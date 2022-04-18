@@ -787,14 +787,18 @@ $(document).ready(function() {
   }
   localStorage.setItem("lastvisit", window.now);
 
-  var week2_ago = window.now - (1209600 * 1000)
+  var two_months_ago = window.now - (5259492 * 1000)
+  var two_weeks_ago = window.now - (1209600 * 1000)
   var week_ago = window.now - (604800 * 1000)
   var day_ago = window.now - (86400 * 1000)
-  var day3_ago = window.now - (259200 * 1000)
+  var three_days_ago = window.now - (259200 * 1000)
 
+  $("#2m-button").click(function() {
+    mainFunction(two_months_ago)
+  });
 
   $("#2w-button").click(function() {
-    mainFunction(week2_ago)
+    mainFunction(two_weeks_ago)
   });
   
   $("#1w-button").click(function() {
@@ -802,7 +806,7 @@ $(document).ready(function() {
   });
 
   $("#3d-button").click(function() {
-    mainFunction(day3_ago)
+    mainFunction(three_days_ago)
   });
 
   $("#24h-button").click(function() {

@@ -459,6 +459,50 @@ window.sets = [
         html_id: 'space',
         questions: [
             {
+                type: 'date',
+                metaculus_id: "3728",
+                title_baseline: "The first time a space mining company reports a profit"
+            },
+            {
+                type: 'binary',
+                metaculus_id: "1662",
+                title_baseline: "At least 100kg of resources is harvested primarily for commercial purposes from any asteroid or comet while it is in space, before 2030",
+                title_inverted: "Less than 100kg of resources is harvested primarily for commercial purposes from any asteroid or comet while it is in space, before 2030",
+                period_end_date: '2030-01-01',
+                periodless_title: "At least 100kg of resources has been harvested primarily for commercial purposes from any asteroid or comet while it is in space",
+                periodless_title_inverted: "Less than 100kg of resources has been harvested primarily for commercial purposes from any asteroid or comet while it is in space"
+            },
+            {
+                type: 'binary',
+                metaculus_id: "594",
+                title_baseline: "More than 13 humans are living off planet Earth at midnight UTC time of December 31, 2050",
+                title_inverted: "Less than 14 humans are living off planet Earth at midnight UTC time of December 31, 2050",
+                period_end_date: '2051-01-01',
+                periodless_title: "More than 13 humans are living off planet Earth",
+                periodless_title_inverted: "Less than 14 humans are living off planet Earth"
+            },
+            {
+                type: 'date',
+                metaculus_id: "1637",
+                title_baseline: "Crewed spacecraft enters interstellar space for the first time"
+            },
+            {
+                type: 'amount',
+                metaculus_id: "8388",
+                title_baseline: "Humans living on Mars in 2050",
+                period_end_date: '2051-01-01',
+                periodless_title: "Humans living on Mars",
+            },
+            {
+                type: 'binary',
+                metaculus_id: "3127",
+                title_baseline: "A pace elevator or a skyhook have transported payloads in excess of 10 metric tons by the end of 2045",
+                title_inverted: "Neither a pace elevator or a skyhook have transported payloads in excess of 10 metric tons by the end of 2045",
+                period_end_date: '2046-01-01',
+                periodless_title: "A pace elevator or a skyhook have transported payloads in excess of 10 metric tons by this time",
+                periodless_title_inverted: "Neither a pace elevator or a skyhook have transported payloads in excess of 10 metric tons by this time"
+            },
+            {
                 type: 'binary',
                 metaculus_id: "3519",
                 title_baseline: "At least one million Martian residents by 2075",
