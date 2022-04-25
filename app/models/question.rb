@@ -5,11 +5,16 @@ class Question < ApplicationRecord
       from = from_string.to_time
 
       stored_first_and_last_prediction = first_and_last_prediction(from)
-
+      ap 'stored_first_and_last_prediction.last'
+      ap stored_first_and_last_prediction.last
       if question_type == 'binary' && stored_first_and_last_prediction.last < 50
+        ap 'inverting'
         title_for_display = title_inverted
         periodless_title_for_display = periodless_title_inverted
+        stored_first_and_last_prediction[0] = 100 - stored_first_and_last_prediction[0]
+        stored_first_and_last_prediction[1] = 100 - stored_first_and_last_prediction[1]
       else
+        ap 'not inverting'
         title_for_display = title_baseline
         periodless_title_for_display = periodless_title
       end
@@ -20,8 +25,7 @@ class Question < ApplicationRecord
           title_for_display: title_for_display,
           periodless_title_for_display: periodless_title_for_display,
           period_end_date: period_end_date,
-          first_and_last_prediction: first_and_last_prediction(from),
-          resolution: data_from_api["resolution"]
+          first_and_last_prediction: stored_first_and_last_prediction
       }
     end
 
@@ -51,6 +55,7 @@ class Question < ApplicationRecord
 
     def find_closest_prediction(relevant_time)
 
+
       times_array = data_from_api["prediction_timeseries"].map do |raw_prediction|
         Time.at(raw_prediction["t"])
       end
@@ -58,6 +63,10 @@ class Question < ApplicationRecord
       predictions_array = data_from_api["prediction_timeseries"].map do |raw_prediction|
         convert_prediction(raw_prediction)
       end
+
+      ap 'in find_closest_prediction'
+      ap 'predictions_array'
+      ap predictions_array
 
 
       closest_prediction = predictions_array.first
@@ -81,11 +90,6 @@ class Question < ApplicationRecord
     def first_and_last_prediction(from)
       first = find_closest_prediction(from)
       last = find_closest_prediction(Time.now.utc)
-
-      if question_type == 'binary' && last < 50
-        first = 100 - first
-        last = 100 - last
-      end
 
       [
         first,

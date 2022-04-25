@@ -8,7 +8,9 @@ class QuestionsController < ApplicationController
             }
           ]
 
-        published_questions = Question.where(published: true).all
+        published_questions = Question.where(published: true).find_all do |question|
+            question.data_from_api["resolution"] == nil
+        end
 
 
         all_category_ids = []

@@ -409,55 +409,51 @@ function mainFunction(start_datetime){
   
         window.response_count[category.html_id] = window.response_count[category.html_id] + 1
   
-        if (question.resolution === null) {
 
           
 
-          // this is only because I don't know how to pass a javascript date object in the api
-          if (question.type === 'date') {
-            question.first_and_last_prediction = [
-              new Date(question.first_and_last_prediction[0]),
-              new Date(question.first_and_last_prediction[1])
-            ]
-          }
+        // this is only because I don't know how to pass a javascript date object in the api
+        if (question.type === 'date') {
+          question.first_and_last_prediction = [
+            new Date(question.first_and_last_prediction[0]),
+            new Date(question.first_and_last_prediction[1])
+          ]
+        }
 
 
-          var data_to_add = {
-            question_id: question.id,
-            set_title: category.title,
-            type: question.type,
-            title_for_display: question.title_for_display,
-            periodless_title_for_display: question.periodless_title_for_display,
-            from: question.first_and_last_prediction[0],
-            to: question.first_and_last_prediction[1],
-            current_value_for_display: currentValueForDisplay(question.type, question.first_and_last_prediction[1]),
-            diff_string: difference_string_for_news(question.first_and_last_prediction[0], question.first_and_last_prediction[1], question.type),
-            diff_string_no_value_for_no_change: difference_string_for_most_likely_outcomes(question.first_and_last_prediction[0], question.first_and_last_prediction[1], question.type),
-            period_end_date: typeof question.period_end_date == 'undefined' ? null : new Date(Date.parse(question.period_end_date)),
-            absolutePercentageDifferenceForDates: absolutePercentageDifferenceForDates(question.first_and_last_prediction[0], question.first_and_last_prediction[1], question.type)
-          }
-  
-  
-  
-          window.predictions_for_display[category.html_id].push(data_to_add)
-  
-          if (window.response_count[category.html_id] === category.questions.length) { // no more questions to come back for the set
-            addPredictionsToPage(category.html_id, window.predictions_for_display[category.html_id])
-            window.sets_painted = window.sets_painted + 1
-            if (window.sets_painted === response.length) { // no more sets to come back
-              var all_predictions_for_display = []
-              for (const property in window.predictions_for_display) {
-                window.predictions_for_display[property].forEach(function (prediction, index) {
-                  prediction.showSetTitle = true // this is used in the handlebars js template
-                  all_predictions_for_display.push(prediction)
-                })
-              }
-              all_predictions_for_display = [...new Set(all_predictions_for_display)] // remove duplicates
-              addPredictionsToPage('all', all_predictions_for_display)
+        var data_to_add = {
+          question_id: question.id,
+          set_title: category.title,
+          type: question.type,
+          title_for_display: question.title_for_display,
+          periodless_title_for_display: question.periodless_title_for_display,
+          from: question.first_and_last_prediction[0],
+          to: question.first_and_last_prediction[1],
+          current_value_for_display: currentValueForDisplay(question.type, question.first_and_last_prediction[1]),
+          diff_string: difference_string_for_news(question.first_and_last_prediction[0], question.first_and_last_prediction[1], question.type),
+          diff_string_no_value_for_no_change: difference_string_for_most_likely_outcomes(question.first_and_last_prediction[0], question.first_and_last_prediction[1], question.type),
+          period_end_date: typeof question.period_end_date == 'undefined' ? null : new Date(Date.parse(question.period_end_date)),
+          absolutePercentageDifferenceForDates: absolutePercentageDifferenceForDates(question.first_and_last_prediction[0], question.first_and_last_prediction[1], question.type)
+        }
+
+
+
+        window.predictions_for_display[category.html_id].push(data_to_add)
+
+        if (window.response_count[category.html_id] === category.questions.length) { // no more questions to come back for the set
+          addPredictionsToPage(category.html_id, window.predictions_for_display[category.html_id])
+          window.sets_painted = window.sets_painted + 1
+          if (window.sets_painted === response.length) { // no more sets to come back
+            var all_predictions_for_display = []
+            for (const property in window.predictions_for_display) {
+              window.predictions_for_display[property].forEach(function (prediction, index) {
+                prediction.showSetTitle = true // this is used in the handlebars js template
+                all_predictions_for_display.push(prediction)
+              })
             }
+            all_predictions_for_display = [...new Set(all_predictions_for_display)] // remove duplicates
+            addPredictionsToPage('all', all_predictions_for_display)
           }
-        } else {
-          // add to a resolved section
         }
       })
     })
