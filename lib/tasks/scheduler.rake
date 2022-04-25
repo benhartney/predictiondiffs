@@ -5,6 +5,10 @@ task :get_questions => :environment do
     {
       id: "geopolitics--armedconflict",
       display_name: "Geopolitics - Armed Conflict"
+    },
+    {
+        id: "business--manda",
+        display_name: "Business – Mergers and Acquisitions"
     }
   ]
   categories.each do |category_hash|
