@@ -72,7 +72,7 @@
         </div>
         <div class="form-check form-switch mb-3">
           <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-          <label class="form-check-label" for="flexSwitchCheckDefault" id='flexSwitchCheckDefaultLabel'>Show news when looking at Most Likely Outcomes</label>
+          <label class="form-check-label" for="flexSwitchCheckDefault" id='flexSwitchCheckDefaultLabel'>Show news when looking at the timeline</label>
         </div>
 
         <ul class="nav nav-tabs" role="tablist" id="set-tabs"></ul>
@@ -165,10 +165,7 @@
             <button class="nav-link active" id="{{html_id}}-changes-tab" data-bs-toggle="tab" data-bs-target="#{{html_id}}-changes" type="button" role="tab" aria-controls="{{html_id}}-changes" aria-selected="true">News</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="{{html_id}}-current-tab" data-bs-toggle="tab" data-bs-target="#{{html_id}}-current" type="button" role="tab" aria-controls="{{html_id}}-current" aria-selected="false">Most Likely Outcomes (list)</button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" id="{{html_id}}-current-calendar-tab" data-bs-toggle="tab" data-bs-target="#{{html_id}}-current-calendar" type="button" role="tab" aria-controls="{{html_id}}-current-calendar" aria-selected="false">Most Likely Outcomes (calendar)</button>
+            <button class="nav-link" id="{{html_id}}-current-calendar-tab" data-bs-toggle="tab" data-bs-target="#{{html_id}}-current-calendar" type="button" role="tab" aria-controls="{{html_id}}-current-calendar" aria-selected="false">Most Likely Outcomes Timeline</button>
           </li>
         </ul>
         <div class="tab-content">
@@ -181,17 +178,6 @@
               <div id='{{html_id}}-changesInnerAmount' class="changesInnerAmount"></div>
               <h5 id='{{html_id}}-changesInnerDateHeader' class="changesInnerDateHeader">Dates (ordered by change %)</h5>
               <div id='{{html_id}}-changesInnerDate' class="changesInnerDate"></div>
-            </div>
-          </div>
-          <div class="tab-pane fade" id="{{html_id}}-current" role="tabpanel" aria-labelledby="{{html_id}}-current-tab">
-            <div id='{{html_id}}-currentInner' class='mt-1'>
-              <h5 id='{{html_id}}-currentInnerInnerBinaryHeader' class="currentInnerInnerBinaryHeader">Binary outcomes (ordered by likelihood)</h5>
-              <div class="spinner-border" id='{{html_id}}-loadingSpinner2' role="status"></div>
-              <div id='{{html_id}}-currentInnerInnerBinary' class="currentInnerInnerBinary"></div>
-              <h5 id='{{html_id}}-currentInnerInnerAmountHeader' class="currentInnerInnerAmountHeader mt-3">Amounts (alphabetical)</h5>
-              <div id='{{html_id}}-currentInnerInnerAmount' class="currentInnerInnerAmount"></div>
-              <h5 id='{{html_id}}-currentInnerInnerDateHeader' class="currentInnerInnerDateHeader mt-3">Projected dates (chronological)</h5>
-              <div id='{{html_id}}-currentInnerInnerDate' class="currentInnerInnerDate"></div>
             </div>
           </div>
           <div class="tab-pane fade" id="{{html_id}}-current-calendar" role="tabpanel" aria-labelledby="{{html_id}}-current-calendar-tab">
@@ -213,18 +199,6 @@
     <script id="change-template" type="text/x-handlebars-template">
       <div class='mb-2'>
         {{#if showSetTitle}}{{set_title}}: {{/if}}{{title_for_display}}: {{{diff_string}}}
-        <a href='https://www.metaculus.com/questions/{{question_id}}' target="_blank">
-          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
-            <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
-          </svg>
-        </a>
-      </div>
-    </script>
-
-    <script id="current-template" type="text/x-handlebars-template">
-      <div class='mb-2'>
-        {{#if showSetTitle}}{{set_title}}: {{/if}}{{title_for_display}}: <b>{{current_value_for_display}}</b> <span class='currentSituationMovement'>{{{diff_string_no_value_for_no_change}}}</span>
         <a href='https://www.metaculus.com/questions/{{question_id}}' target="_blank">
           <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>

@@ -182,58 +182,6 @@ function addPredictionsToPage(html_id, predictions) {
     }
   })
 
-  var binary_for_most_likely_outcome = predictions.map(x => {
-    if (x.type === 'binary') {
-      return x
-    }
-  }).sort(function (a, b) {
-    return (a.to - b.to);
-  }).filter(function(x) {
-    return x !== undefined; // TODO replace this with _.compact(list)
-  }).reverse();
-
-  binary_for_most_likely_outcome.forEach(function (item) {
-    var listingTemplate = Handlebars.compile(document.getElementById("current-template").innerHTML);
-    $("#"+html_id+"-currentInnerInnerBinary").append(listingTemplate(item));
-  })
-
-
-  var date_for_most_likely_outcome = predictions.map(x => {
-    if (x.type === 'date') {
-      return x
-    }
-  }).sort(function (a, b) {
-    return (b.title_for_display - a.title_for_display);
-  }).filter(function(x) {
-    return x !== undefined; // TODO replace this with _.compact(list)
-  }).reverse();
-
-  date_for_most_likely_outcome.forEach(function (item) {
-    var listingTemplate = Handlebars.compile(document.getElementById("current-template").innerHTML);
-    $("#"+html_id+"-currentInnerInnerDate").append(listingTemplate(item));
-  })
-
-
-  var amount_for_most_likely_outcome = predictions.map(x => {
-    if (x.type === 'amount') {
-      return x
-    }
-  }).sort(function (a, b) {
-    return (a.to - b.to)
-  }).filter(function(x) {
-    return x !== undefined; // TODO replace this with _.compact(list)
-  }).reverse();
-
-  amount_for_most_likely_outcome.forEach(function (item) {
-    var listingTemplate = Handlebars.compile(document.getElementById("current-template").innerHTML);
-    $("#"+html_id+"-currentInnerInnerAmount").append(listingTemplate(item));
-  })
-
-
-
-
-
-
 
   if ($('#'+html_id+'-changesInnerBinary').is(':empty') === false) {
     $('#'+html_id+'-changesInnerBinaryHeader').show()
@@ -247,31 +195,10 @@ function addPredictionsToPage(html_id, predictions) {
     $('#'+html_id+'-changesInnerDateHeader').show()
   }
 
-  if ($('#'+html_id+'-currentInnerInnerBinary').is(':empty') === false) {
-    $('#'+html_id+'-currentInnerInnerBinaryHeader').show()
-  }
-
-  if ($('#'+html_id+'-currentInnerInnerAmount').is(':empty') === false) {
-    $('#'+html_id+'-currentInnerInnerAmountHeader').show()
-  }
-
-  if ($('#'+html_id+'-currentInnerInnerDate').is(':empty') === false) {
-    $('#'+html_id+'-currentInnerInnerDateHeader').show()
-  }
-
   if( $('#'+html_id+'-changesInnerBinary').is(':empty') === true && $('#'+html_id+'-changesInnerAmount').is(':empty') === true && $('#'+html_id+'-changesInnerDate').is(':empty') === true) {
     $("#"+html_id+"-changesInnerBinary").text("None - take a look at Most Likely Outcomes to see where things stand.")
   }
 
-
-
-  // if date type or it has period_end_date
-  // date - no confidence (but need to confirm)
-  // period_end_date - has confidence
-
-  //period_end_date: question.period_end_date,
-  //periodless_title: question.periodless_title,
-  //periodless_title_inverted: question.periodless_title_inverted
 
   
 
