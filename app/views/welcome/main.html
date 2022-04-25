@@ -204,7 +204,7 @@
 
 
 
-    <script id="set-tab-template-after-first" type="text/x-handlebars-template">
+    <script id="set-tab-template" type="text/x-handlebars-template">
       <li class="nav-item" role="presentation">
         <button class="nav-link set-tab-temp" id="{{html_id}}-tab" data-bs-toggle="tab" data-bs-target="#{{html_id}}" type="button" role="tab" aria-controls="{{html_id}}" aria-selected="false">{{title}}</button>
       </li>
@@ -212,8 +212,8 @@
 
     <script id="change-template" type="text/x-handlebars-template">
       <div class='mb-2'>
-        {{#if showSetTitle}}{{set_title}}: {{/if}}{{this.title}}: {{{this.diff_string}}}
-        <a href='https://www.metaculus.com/questions/{{this.question_id}}' target="_blank">
+        {{#if showSetTitle}}{{set_title}}: {{/if}}{{title_for_display}}: {{{diff_string}}}
+        <a href='https://www.metaculus.com/questions/{{question_id}}' target="_blank">
           <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
             <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
@@ -224,8 +224,8 @@
 
     <script id="current-template" type="text/x-handlebars-template">
       <div class='mb-2'>
-        {{#if showSetTitle}}{{set_title}}: {{/if}}{{this.title}}: <b>{{this.current_value_for_display}}</b> <span class='currentSituationMovement'>{{{this.diff_string_no_value_for_no_change}}}</span>
-        <a href='https://www.metaculus.com/questions/{{this.question_id}}' target="_blank">
+        {{#if showSetTitle}}{{set_title}}: {{/if}}{{title_for_display}}: <b>{{current_value_for_display}}</b> <span class='currentSituationMovement'>{{{diff_string_no_value_for_no_change}}}</span>
+        <a href='https://www.metaculus.com/questions/{{question_id}}' target="_blank">
           <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
             <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
@@ -242,8 +242,8 @@
 
     <script id="current-calendar-template" type="text/x-handlebars-template">
       <div class='mb-2'>
-        {{#if showSetTitle}}{{set_title}}: {{/if}}{{periodless_title}}{{#if show_current_value_for_display}}: {{current_value_for_display}}{{/if}}<span class='currentSituationMovement'> {{{this.diff_string_no_value_for_no_change}}}</span>
-        <a href='https://www.metaculus.com/questions/{{this.question_id}}' target="_blank">
+        {{#if showSetTitle}}{{set_title}}: {{/if}}{{periodless_title_for_display}}{{#if show_current_value_for_display}}: {{current_value_for_display}}{{/if}}<span class='currentSituationMovement'> {{{diff_string_no_value_for_no_change}}}</span>
+        <a href='https://www.metaculus.com/questions/{{question_id}}' target="_blank">
           <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
             <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
@@ -258,7 +258,6 @@
     <script src='https://cdn.plot.ly/plotly-2.9.0.min.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src='https://cdn.jsdelivr.net/npm/underscore@1.13.2/underscore-umd-min.js'></script>
-    <script src="data.js"></script>
     <script src="main.js"></script>
     
 

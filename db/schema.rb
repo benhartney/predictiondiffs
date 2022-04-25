@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_16_095230) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_21_150808) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,6 +19,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_16_095230) do
     t.json "data_from_api"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "published", default: false
+    t.string "question_type"
+    t.string "title_baseline"
+    t.string "title_inverted"
+    t.string "periodless_title"
+    t.string "periodless_title_inverted"
+    t.date "period_end_date"
+    t.string "categories"
   end
 
 end

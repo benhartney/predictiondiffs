@@ -66,7 +66,7 @@ function msToTime(duration) {
   var milliseconds = Math.floor((duration % 1000) / 100),
     seconds = Math.floor((duration / 1000) % 60),
     minutes = Math.floor((duration / (1000 * 60)) % 60),
-    hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+    hours = Math.floor((duration / (1000 * 60 * 60)) % 24)
 
 
   if (hours > 0) {
@@ -80,20 +80,20 @@ function msToTime(duration) {
 }
 
 function nearest(n, v) {
-    n = n / v;
-    n = Math.round(n) * v;
-    return n;
+    n = n / v
+    n = Math.round(n) * v
+    return n
 }
 
 function logScale(value, min, max, deriv_ratio) {
-  return (max - min) * (Math.pow(deriv_ratio, value) - 1) / (deriv_ratio - 1) + min;
-};
+  return (max - min) * (Math.pow(deriv_ratio, value) - 1) / (deriv_ratio - 1) + min
+}
 
 function logScaleDate(value, min, max, deriv_ratio) {
-  const seconds = logScale(value, min / 1000, max / 1000, deriv_ratio);
-  const milliseconds = seconds * 1000;
-  return new Date(milliseconds);
-};
+  const seconds = logScale(value, min / 1000, max / 1000, deriv_ratio)
+  const milliseconds = seconds * 1000
+  return new Date(milliseconds)
+}
 
 function getPrediction(prediction, type, scale) {
   if (type === 'binary') {
@@ -116,7 +116,6 @@ function getPrediction(prediction, type, scale) {
     } else {
       return Math.round((logScale(prediction.community_prediction.q2, min, max, derivRatio)) * 100) / 100
     }
-    
   }
 }
 
@@ -204,7 +203,7 @@ function addPredictionsToPage(html_id, predictions) {
       return x
     }
   }).sort(function (a, b) {
-    return (b.title - a.title);
+    return (b.title_for_display - a.title_for_display);
   }).filter(function(x) {
     return x !== undefined; // TODO replace this with _.compact(list)
   }).reverse();
@@ -353,137 +352,130 @@ function convetPredictionsToGroupedByDate(predictions) {
   return return_arr
 }
 
+function currentValueForDisplay(type, last_prediction) {
+  if (type === 'binary') {
+    return last_prediction + '%'
+  } else if (type === 'date') {
+    return last_prediction.toISOString().split('T')[0]
+  } else if (type === 'amount') {
+    return last_prediction
+  }
+}
+
 function mainFunction(start_datetime){
 
-  $('.changesInnerBinaryHeader, .changesInnerAmountHeader, .changesInnerDateHeader, .currentInnerInnerBinaryHeader, .currentInnerInnerAmountHeader, .currentInnerInnerDateHeader').hide()
-  $('.changesInnerBinary, .changesInnerAmount, .changesInnerDate, .currentInnerInnerBinary, .currentInnerInnerAmount, .currentInnerInnerDate, .currentCalendarInner').empty()
+
+  var setTabTemplate = Handlebars.compile(document.getElementById("set-tab-template").innerHTML);
+  var setTabContentTemplate = Handlebars.compile(document.getElementById("set-tab-content-template").innerHTML);
+  $("#set-tabs").html(setTabTemplate({html_id:'all',title:'All'}));
+  $("#set-tab-contents").html(setTabContentTemplate({html_id:'all',title:'All'}));
+
   $('.spinner-border').show()
-
-  window.response_count = {}
-  window.predictions_for_display = {}
-  window.sets_painted = 0
-
-  window.sets.forEach(function (set, set_index) {
-
-    window.response_count[set.html_id] = 0
-    window.predictions_for_display[set.html_id] = []
-
-    set.questions.forEach(function (question, question_index) {
-
-      var response = _.find(window.data_from_api, function(num){
-        return num.id == question.metaculus_id
-      }).data;
+  start_date = new Date(start_datetime)
+  $.get("/questions?from="+start_date.toISOString(), function( response ) {
 
 
-      window.response_count[set.html_id] = window.response_count[set.html_id] + 1
 
-      if (response.resolution === null) {
 
-        response_datetimes = response.prediction_timeseries.map(x => new Date(x.t * 1000))
-
-        response_predictions = response.prediction_timeseries.map(prediction => {
-          return getPrediction(prediction, question.type, response.possibilities.scale)
-        })
-
-        var datetimes_array = []
-        var predictions_array = []
-
-        datetimes_array.push(start_datetime)
-        predictions_array.push(findClosestPrediction(start_datetime, response_datetimes, response_predictions))
-
-        response_datetimes.forEach(function (datetime_to_check, index) {
-          if (datetime_to_check >= start_datetime && datetime_to_check <= window.now) {
-            datetimes_array.push(datetime_to_check)
-            predictions_array.push(response_predictions[index])
-          }
-        })
-
-        datetimes_array.push(window.now)
-        predictions_array.push(findClosestPrediction(window.now, response_datetimes, response_predictions))
-
-        var first_prediction = predictions_array[0]
-        var last_prediction = predictions_array.slice(-1)[0]
-
-        if (question.type === 'binary') {
-          if (last_prediction < 50) {
-            response.title = question.title_inverted
-            response.title_short = question.title_inverted
-            response.periodless_title = question.periodless_title_inverted
-            predictions_array = predictions_array.map(prediction => {
-              return (100 - prediction)
-            })
-            first_prediction = predictions_array[0]
-            last_prediction = predictions_array.slice(-1)[0]
-          } else {
-            response.title = question.title_baseline
-            response.title_short = question.title_baseline
-            response.periodless_title = question.periodless_title
-          }
-        } else if (question.type === 'amount') {
-          response.title = question.title_baseline
-          response.title_short = question.title_baseline
-          response.periodless_title = question.periodless_title
-        } else {
-          response.title = question.title_baseline
-          response.title_short = question.title_baseline
-          response.periodless_title = question.title_baseline
-        }
-        
-        if (question.type === 'binary') {
-          var current_value_for_display = last_prediction + '%'
-        } else if (question.type === 'date') {
-          var current_value_for_display = last_prediction.toISOString().split('T')[0]
-        } else if (question.type === 'amount') {
-          var current_value_for_display = last_prediction
-        }
-
-        var data_to_add = {
-          question_id: question.metaculus_id,
-          set_title: set.title,
-          type: question.type,
-          title: response.title,
-          from: first_prediction,
-          current_value_for_display: current_value_for_display,
-          to: last_prediction,
-          diff_string: difference_string_for_news(first_prediction, last_prediction, question.type),
-          diff_string_no_value_for_no_change: difference_string_for_most_likely_outcomes(first_prediction, last_prediction, question.type),
-          period_end_date: typeof question.period_end_date == 'undefined' ? null : new Date(Date.parse(question.period_end_date)),
-          periodless_title: response.periodless_title
-        }
-
-        if (question.type === 'date') {
-          data_to_add.absolutePercentageDifferenceForDates = absolutePercentageDifferenceForDates(data_to_add.from, data_to_add.to)
-        } else if (question.type === 'amount') {
-          data_to_add.absolutePercentageDifferenceForAmount = absolutePercentageDifferenceForAmount(data_to_add.from, data_to_add.to)
-        }
-
-        window.predictions_for_display[set.html_id].push(data_to_add)
-
-        if (window.response_count[set.html_id] === set.questions.length) { // no more questions to come back for the set
-          addPredictionsToPage(set.html_id, window.predictions_for_display[set.html_id])
-          window.sets_painted = window.sets_painted + 1
-          if (window.sets_painted === window.sets.length) { // no more sets to come back
-            var all_predictions_for_display = []
-            for (const property in window.predictions_for_display) {
-              window.predictions_for_display[property].forEach(function (prediction, index) {
-                prediction.showSetTitle = true // this is used in the handlebars js template
-                all_predictions_for_display.push(prediction)
-              })
-            }
-            all_predictions_for_display = [...new Set(all_predictions_for_display)] // remove duplicates
-            addPredictionsToPage('all', all_predictions_for_display)
-          }
-        }
-      } else {
-        // add to a resolved section
-      }
+    response.forEach(function (category) { 
+      $("#set-tabs").append(setTabTemplate({html_id:category.html_id,title:category.title}));
+      $("#set-tab-contents").append(setTabContentTemplate({html_id:category.html_id,title:category.title}));
     })
+  
+  
+    $('.set-tab-content-temp').first().addClass('show').addClass('active');
+    $('.set-tab-temp').first().addClass('active').attr("aria-selected","true");
+    
+    
+  
+  
+    $('.changesInnerBinaryHeader, .changesInnerAmountHeader, .changesInnerDateHeader, .currentInnerInnerBinaryHeader, .currentInnerInnerAmountHeader, .currentInnerInnerDateHeader').hide()
+
+    $('.changesInnerBinaryHeader, .changesInnerAmountHeader, .changesInnerDateHeader, .currentInnerInnerBinaryHeader, .currentInnerInnerAmountHeader, .currentInnerInnerDateHeader').hide()
+    $('.changesInnerBinary, .changesInnerAmount, .changesInnerDate, .currentInnerInnerBinary, .currentInnerInnerAmount, .currentInnerInnerDate, .currentCalendarInner').empty()
+    $('.spinner-border').show()
+  
+    window.response_count = {}
+    window.predictions_for_display = {}
+    window.sets_painted = 0
+  
+    response.forEach(function (category) { 
+  
+      window.response_count[category.html_id] = 0
+      window.predictions_for_display[category.html_id] = []
+  
+      category.questions.forEach(function (question) {
+        console.log(question)
+  
+  
+        window.response_count[category.html_id] = window.response_count[category.html_id] + 1
+  
+        if (question.data_from_api.resolution === null) {
+
+          
+          console.log('1')
+          console.log(question.type)
+
+          // this is only because I don't know how to pass a javascript date object in the api
+          if (question.type === 'date') {
+            question.first_and_last_prediction = [
+              new Date(question.first_and_last_prediction[0]),
+              new Date(question.first_and_last_prediction[1])
+            ]
+          }
+
+          console.log('question.first_and_last_prediction')
+          console.log(question.first_and_last_prediction)
+
+          var data_to_add = {
+            question_id: question.data_from_api.id,
+            set_title: category.title,
+            type: question.type,
+            title_for_display: question.title_for_display,
+            periodless_title_for_display: question.periodless_title_for_display,
+            from: question.first_and_last_prediction[0],
+            to: question.first_and_last_prediction[1],
+            current_value_for_display: currentValueForDisplay(question.type, question.first_and_last_prediction[1]),
+            diff_string: difference_string_for_news(question.first_and_last_prediction[0], question.first_and_last_prediction[1], question.type),
+            diff_string_no_value_for_no_change: difference_string_for_most_likely_outcomes(question.first_and_last_prediction[0], question.first_and_last_prediction[1], question.type),
+            period_end_date: typeof question.period_end_date == 'undefined' ? null : new Date(Date.parse(question.period_end_date)),
+            absolutePercentageDifferenceForDates: absolutePercentageDifferenceForDates(question.first_and_last_prediction[0], question.first_and_last_prediction[1], question.type)
+          }
+  
+  
+  
+          window.predictions_for_display[category.html_id].push(data_to_add)
+  
+          if (window.response_count[category.html_id] === category.questions.length) { // no more questions to come back for the set
+            addPredictionsToPage(category.html_id, window.predictions_for_display[category.html_id])
+            window.sets_painted = window.sets_painted + 1
+            if (window.sets_painted === response.length) { // no more sets to come back
+              var all_predictions_for_display = []
+              for (const property in window.predictions_for_display) {
+                window.predictions_for_display[property].forEach(function (prediction, index) {
+                  prediction.showSetTitle = true // this is used in the handlebars js template
+                  all_predictions_for_display.push(prediction)
+                })
+              }
+              all_predictions_for_display = [...new Set(all_predictions_for_display)] // remove duplicates
+              addPredictionsToPage('all', all_predictions_for_display)
+            }
+          }
+        } else {
+          // add to a resolved section
+        }
+      })
+    })
+
   })
+
+
+
+
 }
 
 function findClosestPrediction(relevant_datetime, response_datetimes, response_predictions) {
   var relevant_datetime_converted = new Date(relevant_datetime)
-
 
   var closest_prediction = 0 // this is not good! actually doesn't matter?
   var closest_datetime = new Date(1) // this is not good! actually doesn't matter?
@@ -505,10 +497,14 @@ function absolutePercentageDifferenceForAmount(from, to) {
   return Math.round((Math.abs(to - from) / from) * 100)
 }
 
-function absolutePercentageDifferenceForDates(from, to) {
-  var diff = absoluteDateDifferenceInDays(from, to)
-  var diffBetweenNowAndFrom = absoluteDateDifferenceInDays(window.now, from)
-  return Math.round((diff / diffBetweenNowAndFrom) * 100)
+function absolutePercentageDifferenceForDates(from, to, type) {
+  if (type === 'date' || type === 'amount') {
+    var diff = absoluteDateDifferenceInDays(from, to)
+    var diffBetweenNowAndFrom = absoluteDateDifferenceInDays(window.now, from)
+    return Math.round((diff / diffBetweenNowAndFrom) * 100)
+  } else {
+    return null
+  }
 }
 
 window.zero_diff_string_for_difference_string_v2 = '<span style="color:#C3C3C3!important">(-)</span>'
@@ -561,7 +557,7 @@ function difference_string_for_most_likely_outcomes(from, to, question_type) {
     }
   } else if (question_type === 'date') {
     var diff = dateDifferenceInDays(from, to)
-    var absPercentageDiff = absolutePercentageDifferenceForDates(from, to)
+    var absPercentageDiff = absolutePercentageDifferenceForDates(from, to, question_type)
     // todo: factor in the minimal setting
     if (diff > 0) {
       var possibleReturnString = '<b>(' + convertDaysToYearsMonthsDays(diff) + ' days (' + absPercentageDiff + '%) later)</b>'
@@ -689,7 +685,7 @@ function difference_string_for_news(from, to, question_type) {
     }
   } else if (question_type === 'date') {
     var diff = dateDifferenceInDays(from,to)
-    var absPercentageDiff = absolutePercentageDifferenceForDates(from, to)
+    var absPercentageDiff = absolutePercentageDifferenceForDates(from, to, question_type)
     if (diff > 0) {
       var possibleReturnString = '<b>' + convertDaysToYearsMonthsDays(diff) + ' (' + absPercentageDiff + '%) later</b> (' + from.toISOString().split('T')[0] + ' -> ' + to.toISOString().split('T')[0] + ')'
       if (minimum_news_level_storage === 'small') {
@@ -863,34 +859,8 @@ $(document).ready(function() {
     $('input[name=btnradio]:checked').click()
   })
 
-  var setTabTemplate = Handlebars.compile(document.getElementById("set-tab-template-after-first").innerHTML);
-  var setTabContentTemplate = Handlebars.compile(document.getElementById("set-tab-content-template").innerHTML);
-  $("#set-tabs").append(setTabTemplate({html_id:'all',title:'All'}));
-  $("#set-tab-contents").append(setTabContentTemplate({html_id:'all',title:'All'}));
 
 
-  window.sets.forEach(function (set, set_index) {
-    $("#set-tabs").append(setTabTemplate(set));
-    $("#set-tab-contents").append(setTabContentTemplate(set));
-  })
-
-
-  $('.set-tab-content-temp').first().addClass('show').addClass('active');
-  $('.set-tab-temp').first().addClass('active').attr("aria-selected","true");
-  
-  
-
-
-  $('.changesInnerBinaryHeader, .changesInnerAmountHeader, .changesInnerDateHeader, .currentInnerInnerBinaryHeader, .currentInnerInnerAmountHeader, .currentInnerInnerDateHeader').hide()
-  $('.spinner-border').show()
-  $.get("/questions", function( response ) {
-    window.data_from_api = response
-    if (last_visit_storage === null) {
-      $("#1w-button").click()
-    } else {
-      $("#last-visit-button").click()
-    }
-  })
 
 
 
@@ -899,6 +869,12 @@ $(document).ready(function() {
   if (has_seen_modal === null) {
     localStorage.setItem("has_seen_modal", 'true');
     $('#exampleModal').modal('show')
+  }
+
+  if (last_visit_storage === null) {
+    $("#1w-button").click()
+  } else {
+    $("#last-visit-button").click()
   }
   
 
