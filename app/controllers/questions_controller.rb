@@ -9,6 +9,10 @@ class QuestionsController < ApplicationController
             {
                 id: "business--manda",
                 display_name: "Business – Mergers and Acquisitions"
+            },
+            {
+                id: "politics",
+                display_name: "Politics"
             }
           ]
 

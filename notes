@@ -1,6 +1,6 @@
 q=Question.where(published:false).first
 
-q.update! title_baseline: "There will be a 'World War Three' before 2050", title_inverted: "There will not be a 'World War Three' before 2050", period_end_date: Date.strptime('2050-01-01', '%Y-%m-%d'), periodless_title: "There will be a 'World War Three' by this time", periodless_title_inverted: "There will not be a 'World War Three' by this time", published: true, question_type: 'binary'
+q.update! title_baseline: "Elon Musk takes Twitter private before 2023", title_inverted: "Elon Musk doesn't take Twitter private before 2023", period_end_date: Date.strptime('2023-01-01', '%Y-%m-%d'), periodless_title: "Elon Musk has taken Twitter private by this time", periodless_title_inverted: "Elon Musk hasn't taken Twitter private by this time", published: true, question_type: 'binary'
 
 
 

@@ -9,6 +9,10 @@ task :get_questions => :environment do
     {
         id: "business--manda",
         display_name: "Business – Mergers and Acquisitions"
+    },
+    {
+        id: "politics",
+        display_name: "Politics"
     }
   ]
   categories.each do |category_hash|
