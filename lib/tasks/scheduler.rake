@@ -2,9 +2,6 @@
 
 task :get_questions => :environment do
   categories = [
-    "geopolitics--armedconflict"
-  ]
-  categories = [
     {
       id: "geopolitics--armedconflict",
       display_name: "Geopolitics - Armed Conflict"
@@ -16,7 +13,6 @@ task :get_questions => :environment do
     url = "https://www.metaculus.com/api2/questions/?search=cat:#{category_hash[:id]}&status=open&type=forecast"
     while url != nil
       response = Faraday.get(url)
-      ap JSON.parse(response.body)['results'].first
 
       JSON.parse(response.body)['results'].each do |result|
         id = result["id"]
