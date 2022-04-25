@@ -1,6 +1,8 @@
 q=Question.where(published:false).first
 
-q.update! title_baseline: "Elon Musk takes Twitter private before 2023", title_inverted: "Elon Musk doesn't take Twitter private before 2023", period_end_date: Date.strptime('2023-01-01', '%Y-%m-%d'), periodless_title: "Elon Musk has taken Twitter private by this time", periodless_title_inverted: "Elon Musk hasn't taken Twitter private by this time", published: true, question_type: 'binary'
+q=Question.where(external_id:7295).first
+
+q.update! title_baseline: "Coalition wins the Australian federal election", title_inverted: "Coalition doesn't win the Australian federal election", period_end_date: Date.strptime('2022-05-23', '%Y-%m-%d'), periodless_title: "Coalition wins the Australian federal election", periodless_title_inverted: "Coalition doesn't win the Australian federal election", published: true, question_type: 'binary'
 
 
 

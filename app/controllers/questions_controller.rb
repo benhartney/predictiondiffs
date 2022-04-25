@@ -13,6 +13,10 @@ class QuestionsController < ApplicationController
             {
                 id: "politics",
                 display_name: "Politics"
+            },
+            {
+                id: "industry--space",
+                display_name: "Industry – Space"
             }
           ]
 
