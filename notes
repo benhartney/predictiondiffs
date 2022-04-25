@@ -1,0 +1,1 @@
+q.update! title_baseline: 'A world war begins before 2151', title_inverted: 'No world war begins before 2151', period_end_date: Date.strptime('2051-01-01', '%Y-%m-%d'), periodless_title: 'A world war has begun before this time', periodless_title_inverted: 'No world war has begun before this time', published: true, question_type: 'binary'

@@ -1,13 +1,6 @@
 class Question < ApplicationRecord
     validates :external_id, uniqueness: true
 
-    def update_data_from_api
-        url = "https://www.metaculus.com/api2/questions/" + external_id + "/"
-        response = Faraday.get(url)
-        p response.status
-        update! data_from_api: response.body
-    end
-
     def display_data(from_string)
       from = from_string.to_time
 
@@ -22,12 +15,13 @@ class Question < ApplicationRecord
       end
      
       {
+          id: external_id,
           type: question_type,
           title_for_display: title_for_display,
           periodless_title_for_display: periodless_title_for_display,
           period_end_date: period_end_date,
-          data_from_api: data_from_api,
-          first_and_last_prediction: first_and_last_prediction(from)
+          first_and_last_prediction: first_and_last_prediction(from),
+          resolution: data_from_api["resolution"]
       }
     end
 

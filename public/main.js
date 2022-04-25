@@ -405,16 +405,13 @@ function mainFunction(start_datetime){
       window.predictions_for_display[category.html_id] = []
   
       category.questions.forEach(function (question) {
-        console.log(question)
   
   
         window.response_count[category.html_id] = window.response_count[category.html_id] + 1
   
-        if (question.data_from_api.resolution === null) {
+        if (question.resolution === null) {
 
           
-          console.log('1')
-          console.log(question.type)
 
           // this is only because I don't know how to pass a javascript date object in the api
           if (question.type === 'date') {
@@ -424,11 +421,9 @@ function mainFunction(start_datetime){
             ]
           }
 
-          console.log('question.first_and_last_prediction')
-          console.log(question.first_and_last_prediction)
 
           var data_to_add = {
-            question_id: question.data_from_api.id,
+            question_id: question.id,
             set_title: category.title,
             type: question.type,
             title_for_display: question.title_for_display,
