@@ -1,31 +1,79 @@
 class Question < ApplicationRecord
     validates :external_id, uniqueness: true
 
+    def title
+      data_from_api['title']
+    end
+
+    def periodless_title_or_fallback
+      if periodless_title.present?
+        periodless_title
+      else
+        if question_type == 'binary'
+          "#{title} - YES"
+        else
+          title
+        end
+      end
+    end
+
+    def periodless_title_inverted_or_fallback
+      if periodless_title_inverted.present?
+        periodless_title_inverted
+      else
+        if question_type == 'binary'
+          "#{title} - NO"
+        else
+          title
+        end
+      end
+    end
+
+
+
+    def period_end_date_or_fallback
+      if period_end_date.present?
+        period_end_date
+      else
+        data_from_api["resolve_time"].to_date
+      end
+    end
+
+    def question_type
+      if data_from_api["possibilities"]["type"] == 'binary'
+        'binary'
+      else
+        if data_from_api["possibilities"]["scale"]["max"].class == String
+          "date"
+        else
+          "amount"
+        end
+      end
+    end
+
     def display_data(from_string)
       from = from_string.to_time
 
       stored_first_and_last_prediction = first_and_last_prediction(from)
-      ap 'stored_first_and_last_prediction.last'
-      ap stored_first_and_last_prediction.last
       if question_type == 'binary' && stored_first_and_last_prediction.last < 50
-        ap 'inverting'
-        title_for_display = title_inverted
-        periodless_title_for_display = periodless_title_inverted
-        stored_first_and_last_prediction[0] = 100 - stored_first_and_last_prediction[0]
-        stored_first_and_last_prediction[1] = 100 - stored_first_and_last_prediction[1]
+        periodless_title_for_display = periodless_title_inverted_or_fallback
+        stored_first_and_last_prediction_possibly_inverted = [
+          100 - stored_first_and_last_prediction[0],
+          100 - stored_first_and_last_prediction[1]
+        ]
       else
-        ap 'not inverting'
-        title_for_display = title_baseline
-        periodless_title_for_display = periodless_title
+        periodless_title_for_display = periodless_title_or_fallback
+        stored_first_and_last_prediction_possibly_inverted = stored_first_and_last_prediction
       end
      
       {
           id: external_id,
           type: question_type,
-          title_for_display: title_for_display,
+          title_for_display: title,
           periodless_title_for_display: periodless_title_for_display,
-          period_end_date: period_end_date,
-          first_and_last_prediction: stored_first_and_last_prediction
+          period_end_date: period_end_date_or_fallback,
+          first_and_last_prediction: stored_first_and_last_prediction,
+          first_and_last_prediction_possibly_inverted: stored_first_and_last_prediction_possibly_inverted
       }
     end
 
@@ -55,7 +103,6 @@ class Question < ApplicationRecord
 
     def find_closest_prediction(relevant_time)
 
-
       times_array = data_from_api["prediction_timeseries"].map do |raw_prediction|
         Time.at(raw_prediction["t"])
       end
@@ -64,9 +111,6 @@ class Question < ApplicationRecord
         convert_prediction(raw_prediction)
       end
 
-      ap 'in find_closest_prediction'
-      ap 'predictions_array'
-      ap predictions_array
 
 
       closest_prediction = predictions_array.first
@@ -88,6 +132,7 @@ class Question < ApplicationRecord
 
 
     def first_and_last_prediction(from)
+
       first = find_closest_prediction(from)
       last = find_closest_prediction(Time.now.utc)
 

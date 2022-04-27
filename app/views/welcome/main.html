@@ -216,7 +216,7 @@
 
     <script id="current-calendar-template" type="text/x-handlebars-template">
       <div class='mb-2'>
-        {{#if showSetTitle}}{{set_title}}: {{/if}}{{periodless_title_for_display}}{{#if show_current_value_for_display}}: {{current_value_for_display}}{{/if}}<span class='currentSituationMovement'> {{{diff_string_no_value_for_no_change}}}</span>
+        {{#if showSetTitle}}{{set_title}}: {{/if}}{{periodless_title_for_display}}{{#if show_current_value_for_display}}: {{current_value_for_display_possibly_inverted}}{{/if}}<span class='currentSituationMovement'> {{{diff_string_no_value_for_no_change_possibly_inverted}}}</span>
         <a href='https://www.metaculus.com/questions/{{question_id}}' target="_blank">
           <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>

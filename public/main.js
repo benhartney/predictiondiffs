@@ -79,45 +79,8 @@ function msToTime(duration) {
   
 }
 
-function nearest(n, v) {
-    n = n / v
-    n = Math.round(n) * v
-    return n
-}
 
-function logScale(value, min, max, deriv_ratio) {
-  return (max - min) * (Math.pow(deriv_ratio, value) - 1) / (deriv_ratio - 1) + min
-}
 
-function logScaleDate(value, min, max, deriv_ratio) {
-  const seconds = logScale(value, min / 1000, max / 1000, deriv_ratio)
-  const milliseconds = seconds * 1000
-  return new Date(milliseconds)
-}
-
-function getPrediction(prediction, type, scale) {
-  if (type === 'binary') {
-    return Math.round(prediction.community_prediction * 100)
-  } else if (type === 'date') {
-    var min = (new Date(scale.min)).getTime()
-    var max = (new Date(scale.max)).getTime()
-    var derivRatio = scale.deriv_ratio
-    if (derivRatio === 1) {
-      return new Date(prediction.community_prediction.q2 * (max - min) + min);
-    } else {
-      return logScaleDate(prediction.community_prediction.q2, min, max, derivRatio)
-    }
-  } else if (type === 'amount') {
-    var max = scale.max
-    var min = scale.min
-    var derivRatio = scale.deriv_ratio
-    if (derivRatio === 1) {
-      return Math.round((prediction.community_prediction.q2 * (max - min) + min) * 100) / 100
-    } else {
-      return Math.round((logScale(prediction.community_prediction.q2, min, max, derivRatio)) * 100) / 100
-    }
-  }
-}
 
 function addPredictionsToPage(html_id, predictions) {
   $('#'+html_id+'-loadingSpinner1').hide()
@@ -280,6 +243,9 @@ function convetPredictionsToGroupedByDate(predictions) {
 }
 
 function currentValueForDisplay(type, last_prediction) {
+  console.log('currentValueForDisplay')
+  console.log(type)
+  console.log(last_prediction)
   if (type === 'binary') {
     return last_prediction + '%'
   } else if (type === 'date') {
@@ -345,6 +311,11 @@ function mainFunction(start_datetime){
             new Date(question.first_and_last_prediction[0]),
             new Date(question.first_and_last_prediction[1])
           ]
+          // don't know if I have to do the following, it's only for binaries, not dates
+          question.first_and_last_prediction_possibly_inverted = [
+            new Date(question.first_and_last_prediction_possibly_inverted[0]),
+            new Date(question.first_and_last_prediction_possibly_inverted[1])
+          ]
         }
 
 
@@ -354,14 +325,21 @@ function mainFunction(start_datetime){
           type: question.type,
           title_for_display: question.title_for_display,
           periodless_title_for_display: question.periodless_title_for_display,
+          period_end_date: typeof question.period_end_date == 'undefined' ? null : new Date(Date.parse(question.period_end_date)),
           from: question.first_and_last_prediction[0],
           to: question.first_and_last_prediction[1],
           current_value_for_display: currentValueForDisplay(question.type, question.first_and_last_prediction[1]),
           diff_string: difference_string_for_news(question.first_and_last_prediction[0], question.first_and_last_prediction[1], question.type),
           diff_string_no_value_for_no_change: difference_string_for_most_likely_outcomes(question.first_and_last_prediction[0], question.first_and_last_prediction[1], question.type),
-          period_end_date: typeof question.period_end_date == 'undefined' ? null : new Date(Date.parse(question.period_end_date)),
-          absolutePercentageDifferenceForDates: absolutePercentageDifferenceForDates(question.first_and_last_prediction[0], question.first_and_last_prediction[1], question.type)
+          absolutePercentageDifferenceForDates: absolutePercentageDifferenceForDates(question.first_and_last_prediction[0], question.first_and_last_prediction[1], question.type),
+          from_possibly_inverted: question.first_and_last_prediction_possibly_inverted[0],
+          to_possibly_inverted: question.first_and_last_prediction_possibly_inverted[1],
+          current_value_for_display_possibly_inverted: currentValueForDisplay(question.type, question.first_and_last_prediction_possibly_inverted[1]),
+          diff_string_possibly_inverted: difference_string_for_news(question.first_and_last_prediction_possibly_inverted[0], question.first_and_last_prediction_possibly_inverted[1], question.type),
+          diff_string_no_value_for_no_change_possibly_inverted: difference_string_for_most_likely_outcomes(question.first_and_last_prediction_possibly_inverted[0], question.first_and_last_prediction_possibly_inverted[1], question.type),
+          absolutePercentageDifferenceForDates_possibly_inverted: absolutePercentageDifferenceForDates(question.first_and_last_prediction_possibly_inverted[0], question.first_and_last_prediction_possibly_inverted[1], question.type)
         }
+        console.log(data_to_add)
 
 
 
