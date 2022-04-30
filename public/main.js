@@ -83,9 +83,6 @@ function msToTime(duration) {
 
 
 function addPredictionsToPage(html_id, predictions) {
-  $('#'+html_id+'-loadingSpinner1').hide()
-  $('#'+html_id+'-loadingSpinner2').hide()
-  $('#'+html_id+'-loadingSpinner3').hide()
 
   var binary_for_news = predictions.map(x => {
     if (x.type === 'binary') {
@@ -194,7 +191,7 @@ function addPredictionsToPage(html_id, predictions) {
   // handle empty?
 
   
-  if ($('#flexSwitchCheckDefault').is(':checked')) {
+  if ($('#show_news_in_timeline').is(':checked')) {
     $('.currentSituationMovement').show()
   } else {
     $('.currentSituationMovement').hide()
@@ -252,128 +249,108 @@ function currentValueForDisplay(type, last_prediction) {
   }
 }
 
-function mainFunction(start_datetime){
-
-
-  var setTabTemplate = Handlebars.compile(document.getElementById("set-tab-template").innerHTML);
-  var setTabContentTemplate = Handlebars.compile(document.getElementById("set-tab-content-template").innerHTML);
-  $("#set-tabs").html(setTabTemplate({html_id:'all',title:'All'}));
-  $("#set-tab-contents").html(setTabContentTemplate({html_id:'all',title:'All'}));
-
-  $('.spinner-border').show()
-  start_date = new Date(start_datetime)
-  $.get("/questions?from="+start_date.toISOString(), function( response ) {
+function mainFunction(time_period){
 
 
 
 
-    response.forEach(function (category) { 
-      $("#set-tabs").append(setTabTemplate({html_id:category.html_id,title:category.title}));
-      $("#set-tab-contents").append(setTabContentTemplate({html_id:category.html_id,title:category.title}));
-    })
+  ///xxx
   
   
-    $('.set-tab-content-temp').first().addClass('show').addClass('active');
-    $('.set-tab-temp').first().addClass('active').attr("aria-selected","true");
-    
-    
-  
-  
-    $('.changesInnerBinaryHeader, .changesInnerAmountHeader, .changesInnerDateHeader, .currentInnerInnerBinaryHeader, .currentInnerInnerAmountHeader, .currentInnerInnerDateHeader').hide()
-
-    $('.changesInnerBinaryHeader, .changesInnerAmountHeader, .changesInnerDateHeader, .currentInnerInnerBinaryHeader, .currentInnerInnerAmountHeader, .currentInnerInnerDateHeader').hide()
-    $('.changesInnerBinary, .changesInnerAmount, .changesInnerDate, .currentInnerInnerBinary, .currentInnerInnerAmount, .currentInnerInnerDate, .currentCalendarInner').empty()
-    $('.spinner-border').show()
-  
-    window.response_count = {}
-    window.predictions_for_display = {}
-    window.sets_painted = 0
-  
-    response.forEach(function (category) { 
-  
-      window.response_count[category.html_id] = 0
-      window.predictions_for_display[category.html_id] = []
-  
-      category.questions.forEach(function (question) {
-  
-  
-        window.response_count[category.html_id] = window.response_count[category.html_id] + 1
-  
-
-          
-
-        // this is only because I don't know how to pass a javascript date object in the api
-        if (question.type === 'date') {
-          question.first_and_last_prediction = [
-            new Date(question.first_and_last_prediction[0]),
-            new Date(question.first_and_last_prediction[1])
-          ]
-          // don't know if I have to do the following, it's only for binaries, not dates
-          question.first_and_last_prediction_possibly_inverted = [
-            new Date(question.first_and_last_prediction_possibly_inverted[0]),
-            new Date(question.first_and_last_prediction_possibly_inverted[1])
-          ]
-        }
 
 
-        var data_to_add = {
-          question_id: question.id,
-          set_title: category.title,
-          type: question.type,
-          title_for_display: question.title_for_display,
-          periodless_title_for_display: question.periodless_title_for_display,
-          period_end_date: typeof question.period_end_date == 'undefined' ? null : new Date(Date.parse(question.period_end_date)),
-          from: question.first_and_last_prediction[0],
-          to: question.first_and_last_prediction[1],
-          current_value_for_display: currentValueForDisplay(question.type, question.first_and_last_prediction[1]),
-          diff_string: difference_string_for_news(question.first_and_last_prediction[0], question.first_and_last_prediction[1], question.type),
-          diff_string_no_value_for_no_change: difference_string_for_most_likely_outcomes(question.first_and_last_prediction[0], question.first_and_last_prediction[1], question.type),
-          absolutePercentageDifferenceForDates: absolutePercentageDifferenceForDates(question.first_and_last_prediction[0], question.first_and_last_prediction[1], question.type),
-          from_possibly_inverted: question.first_and_last_prediction_possibly_inverted[0],
-          to_possibly_inverted: question.first_and_last_prediction_possibly_inverted[1],
-          current_value_for_display_possibly_inverted: currentValueForDisplay(question.type, question.first_and_last_prediction_possibly_inverted[1]),
-          diff_string_possibly_inverted: difference_string_for_news(question.first_and_last_prediction_possibly_inverted[0], question.first_and_last_prediction_possibly_inverted[1], question.type),
-          diff_string_no_value_for_no_change_possibly_inverted: difference_string_for_most_likely_outcomes(question.first_and_last_prediction_possibly_inverted[0], question.first_and_last_prediction_possibly_inverted[1], question.type),
-          absolutePercentageDifferenceForDates_possibly_inverted: absolutePercentageDifferenceForDates(question.first_and_last_prediction_possibly_inverted[0], question.first_and_last_prediction_possibly_inverted[1], question.type)
-        }
+  $('.changesInnerBinaryHeader, .changesInnerAmountHeader, .changesInnerDateHeader, .currentInnerInnerBinaryHeader, .currentInnerInnerAmountHeader, .currentInnerInnerDateHeader').hide()
+
+  $('.changesInnerBinaryHeader, .changesInnerAmountHeader, .changesInnerDateHeader, .currentInnerInnerBinaryHeader, .currentInnerInnerAmountHeader, .currentInnerInnerDateHeader').hide()
+  $('.changesInnerBinary, .changesInnerAmount, .changesInnerDate, .currentInnerInnerBinary, .currentInnerInnerAmount, .currentInnerInnerDate, .currentCalendarInner').empty()
+
+  window.response_count = {}
+  window.predictions_for_display = {}
+  window.sets_painted = 0
+
+  window.api_data.forEach(function (category) { 
+
+    window.response_count[category.html_id] = 0
+    window.predictions_for_display[category.html_id] = []
+
+    category.questions.forEach(function (question) {
+
+
+      window.response_count[category.html_id] = window.response_count[category.html_id] + 1
+
+      var first_and_last_prediction_for_time_period = _.find(question.predictions, function(prediction_time_period){
+        return prediction_time_period.time_period == time_period
+      });
+        
+
+      // this is only because I don't know how to pass a javascript date object in the api
+      if (question.type === 'date' && first_and_last_prediction_for_time_period.first_and_last_prediction[0] instanceof Date === false) {
+        first_and_last_prediction_for_time_period.first_and_last_prediction = [
+          new Date(first_and_last_prediction_for_time_period.first_and_last_prediction[0]),
+          new Date(first_and_last_prediction_for_time_period.first_and_last_prediction[1])
+        ]
+        // don't know if I have to do the following, it's only for binaries, not dates
+        first_and_last_prediction_for_time_period.first_and_last_prediction_possibly_inverted = [
+          new Date(first_and_last_prediction_for_time_period.first_and_last_prediction_possibly_inverted[0]),
+          new Date(first_and_last_prediction_for_time_period.first_and_last_prediction_possibly_inverted[1])
+        ]
+      }
+
+
+      var data_to_add = {
+        question_id: question.id,
+        set_title: category.title,
+        type: question.type,
+        title_for_display: question.title_for_display,
+        periodless_title_for_display: question.periodless_title_for_display,
+        period_end_date: typeof question.period_end_date == 'undefined' ? null : new Date(Date.parse(question.period_end_date)),
+        from: first_and_last_prediction_for_time_period.first_and_last_prediction[0],
+        to: first_and_last_prediction_for_time_period.first_and_last_prediction[1],
+        current_value_for_display: currentValueForDisplay(question.type, first_and_last_prediction_for_time_period.first_and_last_prediction[1]),
+        diff_string: difference_string_for_news(first_and_last_prediction_for_time_period.first_and_last_prediction[0], first_and_last_prediction_for_time_period.first_and_last_prediction[1], question.type),
+        diff_string_no_value_for_no_change: difference_string_for_most_likely_outcomes(first_and_last_prediction_for_time_period.first_and_last_prediction[0], first_and_last_prediction_for_time_period.first_and_last_prediction[1], question.type),
+        absolutePercentageDifferenceForDates: absolutePercentageDifferenceForDates(first_and_last_prediction_for_time_period.first_and_last_prediction[0], first_and_last_prediction_for_time_period.first_and_last_prediction[1], question.type),
+        from_possibly_inverted: first_and_last_prediction_for_time_period.first_and_last_prediction_possibly_inverted[0],
+        to_possibly_inverted: first_and_last_prediction_for_time_period.first_and_last_prediction_possibly_inverted[1],
+        current_value_for_display_possibly_inverted: currentValueForDisplay(question.type, first_and_last_prediction_for_time_period.first_and_last_prediction_possibly_inverted[1]),
+        diff_string_possibly_inverted: difference_string_for_news(first_and_last_prediction_for_time_period.first_and_last_prediction_possibly_inverted[0], first_and_last_prediction_for_time_period.first_and_last_prediction_possibly_inverted[1], question.type),
+        diff_string_no_value_for_no_change_possibly_inverted: difference_string_for_most_likely_outcomes(first_and_last_prediction_for_time_period.first_and_last_prediction_possibly_inverted[0], first_and_last_prediction_for_time_period.first_and_last_prediction_possibly_inverted[1], question.type),
+        absolutePercentageDifferenceForDates_possibly_inverted: absolutePercentageDifferenceForDates(first_and_last_prediction_for_time_period.first_and_last_prediction_possibly_inverted[0], first_and_last_prediction_for_time_period.first_and_last_prediction_possibly_inverted[1], question.type)
+      }
 
 
 
-        window.predictions_for_display[category.html_id].push(data_to_add)
+      window.predictions_for_display[category.html_id].push(data_to_add)
 
-        if (window.response_count[category.html_id] === category.questions.length) { // no more questions to come back for the set
-          addPredictionsToPage(category.html_id, window.predictions_for_display[category.html_id])
-          window.sets_painted = window.sets_painted + 1
-          if (window.sets_painted === response.length) { // no more sets to come back
-            var all_predictions_for_display = []
-            for (const property in window.predictions_for_display) {
-              window.predictions_for_display[property].forEach(function (prediction, index) {
-                prediction.showSetTitle = true // this is used in the handlebars js template
-                console.log('prediction')
-                
-                var existingPredictionInAll = _.find(all_predictions_for_display, function(predictionBeingChecked){ return predictionBeingChecked.question_id == prediction.question_id });
+      if (window.response_count[category.html_id] === category.questions.length) { // no more questions to come back for the set
+        addPredictionsToPage(category.html_id, window.predictions_for_display[category.html_id])
+        window.sets_painted = window.sets_painted + 1
+        if (window.sets_painted === window.api_data.length) { // no more sets to come back
+          var all_predictions_for_display = []
+          for (const property in window.predictions_for_display) {
+            window.predictions_for_display[property].forEach(function (prediction, index) {
+              prediction.showSetTitle = true // this is used in the handlebars js template
+              
+              var existingPredictionInAll = _.find(all_predictions_for_display, function(predictionBeingChecked){ return predictionBeingChecked.question_id == prediction.question_id });
 
-                if (existingPredictionInAll === undefined) {
-                  all_predictions_for_display.push(prediction)
-                } else {
-                  existingPredictionInAll.set_title = existingPredictionInAll.set_title + ', ' + prediction.set_title
-                }
-
-                console.log('existingPredictionInAll')
-                console.log(existingPredictionInAll)
+              if (existingPredictionInAll === undefined) {
+                all_predictions_for_display.push(prediction)
+              } else {
+                existingPredictionInAll.set_title = existingPredictionInAll.set_title + ', ' + prediction.set_title
+              }
 
 
-                
-              })
-            }
-            all_predictions_for_display = [...new Set(all_predictions_for_display)] // remove duplicates
-            addPredictionsToPage('all', all_predictions_for_display)
+
+              
+            })
           }
+          all_predictions_for_display = [...new Set(all_predictions_for_display)] // remove duplicates
+          addPredictionsToPage('all', all_predictions_for_display)
         }
-      })
+      }
     })
-
   })
+
 
 
 
@@ -672,62 +649,48 @@ function difference_string_for_news(from, to, question_type) {
   return returnString
 }
 
-$(document).ready(function() {
 
-  var minimum_news_level_storage = localStorage.getItem("minimum_news_level")
-  if (minimum_news_level_storage === null) {
-    minimum_news_level_storage = $('input[name=minimumNewsLevelRadios]:checked').attr('data-value-to-save')
-    localStorage.setItem("minimum_news_level", minimum_news_level_storage);
-  } else {
-    $("[data-value-to-save='"+minimum_news_level_storage+"']").prop('checked', true)
-  }
-
-  var last_visit_storage = localStorage.getItem("lastvisit")
-  if (last_visit_storage !== null) {
-    window.last_visit = new Date(last_visit_storage)
+function set_last_visit_storage(){
+  if (localStorage.getItem("lastvisit") !== null) {
+    window.last_visit = new Date(localStorage.getItem("lastvisit"))
     $('.last-visit-text').html(" ("+msToTime(window.now - window.last_visit)+")");
   }
   localStorage.setItem("lastvisit", window.now);
+}
 
-  var two_months_ago = window.now - (5259492 * 1000)
-  var two_weeks_ago = window.now - (1209600 * 1000)
-  var week_ago = window.now - (604800 * 1000)
-  var day_ago = window.now - (86400 * 1000)
-  var three_days_ago = window.now - (259200 * 1000)
+function setup_time_buttons(){
 
   $("#2m-button").click(function() {
-    mainFunction(two_months_ago)
+    mainFunction('2m')
   });
 
   $("#2w-button").click(function() {
-    mainFunction(two_weeks_ago)
+    mainFunction('2w')
   });
   
   $("#1w-button").click(function() {
-    mainFunction(week_ago)
+    mainFunction('1w')
   });
 
   $("#3d-button").click(function() {
-    mainFunction(three_days_ago)
+    mainFunction('3d')
   });
 
   $("#24h-button").click(function() {
-    mainFunction(day_ago)
+    mainFunction('24h')
   });
 
   $("#last-visit-button").click(function() {
-    if (last_visit_storage === null) {
+    if (window.last_visit === null) {
       alert("This button will work the next time you visit this page");
-      return false;
+      return false
     } else {
-      mainFunction(window.last_visit)
+      mainFunction('last_visit')
     }
   });
+}
 
-  if (mobileCheck() === false) {
-    $('#mobile-warning').hide()
-  }
-
+function hide_twitter_link(){
   var urlParams = new URLSearchParams(window.location.search);
 
   if (urlParams.has('testf')) {
@@ -737,19 +700,18 @@ $(document).ready(function() {
   if (localStorage.getItem("testf") === 'true') {
     $('#twitterLink').hide()
   }
+}
 
-  $("#flexSwitchCheckDefault").click(function() {
-    if (this.checked) {
-      $('.currentSituationMovement').show()
-    } else {
-      $('.currentSituationMovement').hide()  
-    }
-  })
+function setup_minimum_news_level(){
 
+  var minimum_news_level_storage = localStorage.getItem("minimum_news_level")
+  if (minimum_news_level_storage === null) {
+    minimum_news_level_storage = $('input[name=minimumNewsLevelRadios]:checked').attr('data-value-to-save')
+    localStorage.setItem("minimum_news_level", minimum_news_level_storage);
+  } else {
+    $("[data-value-to-save='"+minimum_news_level_storage+"']").prop('checked', true)
+  }
 
-
-  
-  
   $('#minimumNewsLevelRadioSmall').click(function() {
     localStorage.setItem("minimum_news_level", 'small'); // TODO change this to use .attr('data-value-to-save')
     $('input[name=btnradio]:checked').click()
@@ -764,25 +726,96 @@ $(document).ready(function() {
     localStorage.setItem("minimum_news_level", 'large'); // TODO change this to use .attr('data-value-to-save')
     $('input[name=btnradio]:checked').click()
   })
+}
 
+function setup_mobile_warning(){
+  if (mobileCheck() === false) {
+    $('#mobile-warning').hide()
+  }
+}
 
+function setup_news_in_timeline_button(){
+  $("#show_news_in_timeline").click(function() {
+    if (this.checked) {
+      $('.currentSituationMovement').show()
+    } else {
+      $('.currentSituationMovement').hide()  
+    }
+  })
+}
 
-
-
-
-
+function setup_intro_modal(){
   var has_seen_modal = localStorage.getItem("has_seen_modal")
   if (has_seen_modal === null) {
     localStorage.setItem("has_seen_modal", 'true');
     $('#exampleModal').modal('show')
   }
+}
 
-  if (last_visit_storage === null) {
-    $("#1w-button").click()
+$(document).ready(function() {
+
+  setup_minimum_news_level()
+  set_last_visit_storage()
+  setup_time_buttons()
+  hide_twitter_link()
+  setup_mobile_warning()
+  setup_news_in_timeline_button()
+  setup_intro_modal()
+
+
+
+
+
+  if (window.last_visit === null) {
+    last_visit_for_query_param = window.now // we will not let the user use the button, so this doesn't matter really
   } else {
-    $("#last-visit-button").click()
+    last_visit_for_query_param = window.last_visit
   }
+
+
+
+
+  $.get("/questions?from="+last_visit_for_query_param.toISOString(), function( response ) {
+    window.api_data = response
+    $('.spinner-border').remove()
+
+    
+    
+    var dropdownTemplate = Handlebars.compile(document.getElementById("dropdown-template").innerHTML);
+    $("#dropdown_container").html(dropdownTemplate({}));
+
+    var setTabContentTemplate = Handlebars.compile(document.getElementById("set-tab-content-template").innerHTML);
+    $("#placeForTheSetsToGo").html(setTabContentTemplate({html_id:'all',title:'All'}));
+    var dropdownEntryTemplate = Handlebars.compile(document.getElementById("dropdown-entry-template").innerHTML);
+    $('#sets-dropdown').append(dropdownEntryTemplate({html_id:'all',title:'All'}))
+    response.forEach(function (category) { 
+      $("#placeForTheSetsToGo").append(setTabContentTemplate({html_id:category.html_id,title:category.title}));
+
+      $('#sets-dropdown').append(dropdownEntryTemplate(category))
+    })
   
+  
+    $('.set-tab-content-temp').first().addClass('show').addClass('active');
+
+    $('.bigthing').hide()
+    $('.bigthing').first().show()
+
+    $('#sets-dropdown').on('change', function() {
+      $('.bigthing').hide()
+      $('#bigthing-'+this.value).show()
+    });
+
+
+    if (window.last_visit === null) {
+      $("#1w-button").click()
+    } else {
+      $("#last-visit-button").click()
+    }
+  })
+
+
+
+
 
 
 });

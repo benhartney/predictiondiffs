@@ -51,19 +51,54 @@ class Question < ApplicationRecord
       end
     end
 
-    def display_data(from_string)
-      from = from_string.to_time
+    def display_data(last_visit_string)
 
-      stored_first_and_last_prediction = first_and_last_prediction(from)
-      if question_type == 'binary' && stored_first_and_last_prediction.last < 50
-        periodless_title_for_display = periodless_title_inverted_or_fallback
-        stored_first_and_last_prediction_possibly_inverted = [
-          100 - stored_first_and_last_prediction[0],
-          100 - stored_first_and_last_prediction[1]
+      temp_array = []
+
+      last_prediction = find_closest_prediction(Time.now.utc)
+
+      ['2m', '2w', '1w', '3d', '24h', 'last_visit'].each do |x|
+
+        if x == '2m'
+          start_time = Time.now - 2.months
+        elsif x == '2w'
+          start_time = Time.now - 2.weeks
+        elsif x == '1w'
+          start_time = Time.now - 2.week
+        elsif x == '3d'
+          start_time = Time.now - 3.days
+        elsif x == '24h'
+          start_time = Time.now - 24.hours
+        elsif x == 'last_visit'
+          start_time = last_visit_string.to_time
+        end 
+
+        stored_first_and_last_prediction = [
+          find_closest_prediction(start_time),
+          last_prediction
         ]
+        
+        
+        if question_type == 'binary' && stored_first_and_last_prediction.last < 50
+          stored_first_and_last_prediction_possibly_inverted = [
+            100 - stored_first_and_last_prediction[0],
+            100 - stored_first_and_last_prediction[1]
+          ]
+        else
+          stored_first_and_last_prediction_possibly_inverted = stored_first_and_last_prediction
+        end
+
+        temp_array.push({
+          time_period: x,
+          first_and_last_prediction: stored_first_and_last_prediction,
+          first_and_last_prediction_possibly_inverted: stored_first_and_last_prediction_possibly_inverted
+        })
+      end
+
+      if question_type == 'binary' && temp_array.first[:first_and_last_prediction].last < 50
+        periodless_title_for_display = periodless_title_inverted_or_fallback
       else
         periodless_title_for_display = periodless_title_or_fallback
-        stored_first_and_last_prediction_possibly_inverted = stored_first_and_last_prediction
       end
      
       {
@@ -72,8 +107,7 @@ class Question < ApplicationRecord
           title_for_display: title,
           periodless_title_for_display: periodless_title_for_display,
           period_end_date: period_end_date_or_fallback,
-          first_and_last_prediction: stored_first_and_last_prediction,
-          first_and_last_prediction_possibly_inverted: stored_first_and_last_prediction_possibly_inverted
+          predictions: temp_array
       }
     end
 
@@ -131,16 +165,7 @@ class Question < ApplicationRecord
     end
 
 
-    def first_and_last_prediction(from)
 
-      first = find_closest_prediction(from)
-      last = find_closest_prediction(Time.now.utc)
-
-      [
-        first,
-        last
-      ]
-    end
 
     def log_scale(value, min, max, deriv_ratio)
       (max - min) * ((deriv_ratio**value) - 1) / (deriv_ratio - 1) + min

@@ -1,10 +1,11 @@
-q=Question.where(published:false).first
 
-q=Question.where(external_id:7295).first
+change api response to return all the time periods
 
-q.update! title_baseline: "Coalition wins the Australian federal election", title_inverted: "Coalition doesn't win the Australian federal election", period_end_date: Date.strptime('2022-05-23', '%Y-%m-%d'), periodless_title: "Coalition wins the Australian federal election", periodless_title_inverted: "Coalition doesn't win the Australian federal election", published: true, question_type: 'binary'
+get data from api
+store in window variable
+create tabs (and eventually dropdown)
+click on the right button
 
 
 
-
-Date.strptime('2150-01-01', '%Y-%m-%d')
+week buttons and level buttons: re-paint
