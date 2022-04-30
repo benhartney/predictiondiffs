@@ -17,6 +17,18 @@ task :get_questions => :environment do
     {
         id: "industry--space",
         display_name: "Industry – Space"
+    },
+    {
+        id: "bio",
+        display_name: "Biology"
+    },
+    {
+        id: "business",
+        display_name: "Business"
+    },
+    {
+        id: "social",
+        display_name: "Social Issues"
     }
   ]
   categories.each do |category_hash|

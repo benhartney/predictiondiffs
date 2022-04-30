@@ -17,6 +17,18 @@ class QuestionsController < ApplicationController
             {
                 id: "industry--space",
                 display_name: "Industry – Space"
+            },
+            {
+                id: "bio",
+                display_name: "Biology"
+            },
+            {
+                id: "business",
+                display_name: "Business"
+            },
+            {
+                id: "social",
+                display_name: "Social Issues"
             }
           ]
 
