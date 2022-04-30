@@ -3,28 +3,28 @@
 task :get_questions => :environment do
   categories = [
     {
-      id: "geopolitics--armedconflict",
-      display_name: "Geopolitics - Armed Conflict"
-    },
-    {
-        id: "business--manda",
-        display_name: "Business – Mergers and Acquisitions"
-    },
-    {
-        id: "politics",
-        display_name: "Politics"
-    },
-    {
-        id: "industry--space",
-        display_name: "Industry – Space"
-    },
-    {
         id: "bio",
         display_name: "Biology"
     },
     {
         id: "business",
         display_name: "Business"
+    },
+    {
+        id: "business--manda",
+        display_name: "Business – Mergers and Acquisitions"
+    },
+    {
+      id: "geopolitics--armedconflict",
+      display_name: "Geopolitics - Armed Conflict"
+    },
+    {
+        id: "industry--space",
+        display_name: "Industry – Space"
+    },
+    {
+        id: "politics",
+        display_name: "Politics"
     },
     {
         id: "social",
