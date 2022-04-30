@@ -243,9 +243,6 @@ function convetPredictionsToGroupedByDate(predictions) {
 }
 
 function currentValueForDisplay(type, last_prediction) {
-  console.log('currentValueForDisplay')
-  console.log(type)
-  console.log(last_prediction)
   if (type === 'binary') {
     return last_prediction + '%'
   } else if (type === 'date') {
@@ -339,7 +336,6 @@ function mainFunction(start_datetime){
           diff_string_no_value_for_no_change_possibly_inverted: difference_string_for_most_likely_outcomes(question.first_and_last_prediction_possibly_inverted[0], question.first_and_last_prediction_possibly_inverted[1], question.type),
           absolutePercentageDifferenceForDates_possibly_inverted: absolutePercentageDifferenceForDates(question.first_and_last_prediction_possibly_inverted[0], question.first_and_last_prediction_possibly_inverted[1], question.type)
         }
-        console.log(data_to_add)
 
 
 
@@ -353,7 +349,21 @@ function mainFunction(start_datetime){
             for (const property in window.predictions_for_display) {
               window.predictions_for_display[property].forEach(function (prediction, index) {
                 prediction.showSetTitle = true // this is used in the handlebars js template
-                all_predictions_for_display.push(prediction)
+                console.log('prediction')
+                
+                var existingPredictionInAll = _.find(all_predictions_for_display, function(predictionBeingChecked){ return predictionBeingChecked.question_id == prediction.question_id });
+
+                if (existingPredictionInAll === undefined) {
+                  all_predictions_for_display.push(prediction)
+                } else {
+                  existingPredictionInAll.set_title = existingPredictionInAll.set_title + ', ' + prediction.set_title
+                }
+
+                console.log('existingPredictionInAll')
+                console.log(existingPredictionInAll)
+
+
+                
               })
             }
             all_predictions_for_display = [...new Set(all_predictions_for_display)] // remove duplicates
