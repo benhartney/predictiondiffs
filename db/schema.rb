@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_27_002748) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_12_222233) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -23,6 +23,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_27_002748) do
     t.string "periodless_title_inverted"
     t.date "period_end_date"
     t.string "categories"
+    t.string "status"
   end
 
 end
