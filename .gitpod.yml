@@ -21,7 +21,8 @@ tasks:
       rake db:create &&
       echo l3 &&
       yarn install &&
-      rails app:update:bin
+      rails app:update:bin &&
+      bin/rails db:migrate RAILS_ENV=development
     command: bin/rails server -b 0.0.0.0
 
 
