@@ -7,8 +7,11 @@ image:
 
 tasks:
   - init: >
+      echo l1 &&
       bundle install &&
+      echo l2 &&
       rake db:create &&
+      echo l3 &&
       yarn install
     command: bin/rails server
 
