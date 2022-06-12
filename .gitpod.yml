@@ -8,8 +8,8 @@ image:
 tasks:
   - init: >
       bundle install &&
-      yarn install &&
-      rake db:create
+      rake db:create &&
+      yarn install
     command: bin/rails server
 
 
