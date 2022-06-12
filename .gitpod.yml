@@ -20,7 +20,8 @@ tasks:
       echo l2 &&
       rake db:create &&
       echo l3 &&
-      yarn install
+      yarn install &&
+      rails app:update:bin
     command: bin/rails server
 
 
