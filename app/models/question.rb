@@ -31,15 +31,18 @@ class Question < ApplicationRecord
       end
     end
 
+    def resolve_time
+      Rails.cache.fetch("#{id}/resolve_time") do
+        data_from_api["resolve_time"]
+      end
+    end
 
 
     def period_end_date_or_fallback
       if period_end_date.present?
         period_end_date
       else
-        Rails.cache.fetch("#{id}/resolve_time_to_date") do
-          data_from_api["resolve_time"].to_date
-        end
+        resolve_time.to_date
       end
     end
 
@@ -55,6 +58,12 @@ class Question < ApplicationRecord
     def scale_deriv_ratio
       Rails.cache.fetch("#{id}/scale_deriv_ratio") do
         data_from_api["possibilities"]["scale"]["deriv_ratio"]
+      end
+    end
+
+    def scale_max_class_to_string
+      Rails.cache.fetch("#{id}/scale_max") do
+        data_from_api["possibilities"]["scale"]["max"].class.to_s
       end
     end
 
@@ -74,7 +83,7 @@ class Question < ApplicationRecord
       if possibilities_type == 'binary'
         'binary'
       else
-        if scale_max.class == String
+        if scale_max_class_to_string == "String"
           "date"
         else
           "amount"
