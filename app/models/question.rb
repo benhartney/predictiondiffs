@@ -2,7 +2,9 @@ class Question < ApplicationRecord
     validates :external_id, uniqueness: true
 
     def title
-      data_from_api['title']
+      Rails.cache.fetch("#{id}/title") do
+        data_from_api['title']
+      end
     end
 
     def periodless_title_or_fallback
@@ -35,15 +37,44 @@ class Question < ApplicationRecord
       if period_end_date.present?
         period_end_date
       else
-        data_from_api["resolve_time"].to_date
+        Rails.cache.fetch("#{id}/resolve_time_to_date") do
+          data_from_api["resolve_time"].to_date
+        end
+      end
+    end
+
+    def possibilities_type
+      Rails.cache.fetch("#{id}/possibilities_type") do
+        data_from_api["possibilities"]["type"]
+      end
+    end
+
+
+    
+
+    def scale_deriv_ratio
+      Rails.cache.fetch("#{id}/scale_deriv_ratio") do
+        data_from_api["possibilities"]["scale"]["deriv_ratio"]
+      end
+    end
+
+    def scale_max
+      Rails.cache.fetch("#{id}/scale_max") do
+        data_from_api["possibilities"]["scale"]["max"]
+      end
+    end
+
+    def scale_min
+      Rails.cache.fetch("#{id}/scale_min") do
+        data_from_api["possibilities"]["scale"]["min"]
       end
     end
 
     def question_type
-      if data_from_api["possibilities"]["type"] == 'binary'
+      if possibilities_type == 'binary'
         'binary'
       else
-        if data_from_api["possibilities"]["scale"]["max"].class == String
+        if scale_max.class == String
           "date"
         else
           "amount"
@@ -51,11 +82,17 @@ class Question < ApplicationRecord
       end
     end
 
+    def cached_most_recent_prediction
+      Rails.cache.fetch("#{id}/cached_most_recent_prediction", expires_in: 30.minutes) do
+        find_closest_prediction(Time.now.utc)
+      end
+    end
+
     def display_data(last_visit_string)
 
       temp_array = []
 
-      last_prediction = find_closest_prediction(Time.now.utc)
+      last_prediction = cached_most_recent_prediction
 
       ['2m', '2w', '1w', '3d', '24h', 'last_visit'].each do |x|
 
@@ -115,18 +152,18 @@ class Question < ApplicationRecord
       if question_type == 'binary'
         (raw_prediction["community_prediction"] * 100).round
       elsif question_type == 'date'
-        min = Date.strptime(data_from_api["possibilities"]["scale"]["min"], '%Y-%m-%d').in_time_zone.utc.to_time.to_i
-        max = Date.strptime(data_from_api["possibilities"]["scale"]["max"], '%Y-%m-%d').in_time_zone.utc.to_time.to_i
-        deriv_ratio = data_from_api["possibilities"]["scale"]["deriv_ratio"]
+        min = Date.strptime(scale_min, '%Y-%m-%d').in_time_zone.utc.to_time.to_i
+        max = Date.strptime(scale_max, '%Y-%m-%d').in_time_zone.utc.to_time.to_i
+        deriv_ratio = scale_deriv_ratio
         if deriv_ratio == 1
           Time.at((raw_prediction["community_prediction"]["q2"] * (max - min) + min)).in_time_zone.utc
         else
           log_scale_date(raw_prediction["community_prediction"]["q2"], min, max, deriv_ratio)
         end
       elsif question_type == 'amount'
-        min = data_from_api["possibilities"]["scale"]["min"]
-        max = data_from_api["possibilities"]["scale"]["max"]
-        deriv_ratio = data_from_api["possibilities"]["scale"]["deriv_ratio"]
+        min = scale_min
+        max = scale_max
+        deriv_ratio = scale_deriv_ratio
         if deriv_ratio == 1
           (((raw_prediction["community_prediction"]["q2"] * (max - min) + min)))
         else

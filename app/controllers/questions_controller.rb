@@ -32,8 +32,9 @@ class QuestionsController < ApplicationController
             }
           ]
 
-        questions = Question.all.find_all do |question|
+        questions = Question.where(status: 'open').find_all do |question|
             question.data_from_api["resolution"] == nil && question.data_from_api["prediction_timeseries"].present?
+            # the resolution check may be duplicative of status:open check
         end
 
 

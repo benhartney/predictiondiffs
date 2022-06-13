@@ -44,8 +44,7 @@ task :get_questions => :environment do
         existing_question = Question.where(external_id: id).first
         if existing_question.present?
           # note: this will also catch questions that are in multiple categories."
-          existing_question.update! data_from_api: result, status: 'open'
-          # the 'open' part is temporary
+          existing_question.update! data_from_api: result
 
           categories_array = existing_question.categories.split(',')
           if categories_array.include?(category_hash[:id]) == false
@@ -65,7 +64,7 @@ task :get_questions => :environment do
       JSON.parse(response.body)['results'].each do |result|
         id = result["id"]
         ap id
-        existing_question = Question.where(external_id: id).first
+        existing_question = Question.where(external_id: id).first # TODO change this to only get ones that are open, in the db
         if existing_question.present?
           ap 'found existing question'
           # note: this will also catch questions that are in multiple categories."
