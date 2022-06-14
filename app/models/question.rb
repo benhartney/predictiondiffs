@@ -106,7 +106,7 @@ class Question < ApplicationRecord
         elsif time_period == '24h'
           start_time = Time.now - 24.hours
         else # this means it's last_visit_string
-          start_time = last_visit_string.to_time
+          start_time = time_period.to_time
         end
 
         [
