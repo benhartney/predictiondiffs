@@ -1,5 +1,7 @@
 class QuestionsController < ApplicationController
     def index
+        ap 'in index'
+        ap params[:from]
 
         categories = [
             {

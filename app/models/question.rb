@@ -62,7 +62,7 @@ class Question < ApplicationRecord
     end
 
     def scale_max_class_to_string
-      Rails.cache.fetch("#{id}/scale_max") do
+      Rails.cache.fetch("#{id}/scale_max_class_to_string") do
         data_from_api["possibilities"]["scale"]["max"].class.to_s
       end
     end
@@ -91,39 +91,44 @@ class Question < ApplicationRecord
       end
     end
 
-    def cached_most_recent_prediction
-      Rails.cache.fetch("#{id}/cached_most_recent_prediction", expires_in: 30.minutes) do
-        find_closest_prediction(Time.now.utc)
+
+    def get_stored_first_and_last_prediction(time_period)
+      ap "#{id}/get_stored_first_and_last_prediction/#{time_period}"
+      Rails.cache.fetch("#{id}/get_stored_first_and_last_prediction/#{time_period}", expires_in: 30.minutes) do
+        if time_period == '2m'
+          start_time = Time.now - 2.months
+        elsif time_period == '2w'
+          start_time = Time.now - 2.weeks
+        elsif time_period == '1w'
+          start_time = Time.now - 2.week
+        elsif time_period == '3d'
+          start_time = Time.now - 3.days
+        elsif time_period == '24h'
+          start_time = Time.now - 24.hours
+        else # this means it's last_visit_string
+          start_time = last_visit_string.to_time
+        end
+
+        [
+          find_closest_prediction(start_time),
+          find_closest_prediction(Time.now.utc)
+        ]
       end
     end
 
-    def display_data(last_visit_string)
+    def display_data(last_visit_string=nil)
 
       temp_array = []
 
-      last_prediction = cached_most_recent_prediction
+      time_periods = ['2m', '2w', '1w', '3d', '24h']
 
-      ['2m', '2w', '1w', '3d', '24h', 'last_visit'].each do |x|
+      unless last_visit_string == nil
+        time_periods << last_visit_string
+      end
 
-        if x == '2m'
-          start_time = Time.now - 2.months
-        elsif x == '2w'
-          start_time = Time.now - 2.weeks
-        elsif x == '1w'
-          start_time = Time.now - 2.week
-        elsif x == '3d'
-          start_time = Time.now - 3.days
-        elsif x == '24h'
-          start_time = Time.now - 24.hours
-        elsif x == 'last_visit'
-          start_time = last_visit_string.to_time
-        end 
+      time_periods.each do |x|
 
-        stored_first_and_last_prediction = [
-          find_closest_prediction(start_time),
-          last_prediction
-        ]
-        
+        stored_first_and_last_prediction = get_stored_first_and_last_prediction(x)
         
         if question_type == 'binary' && stored_first_and_last_prediction.last < 50
           stored_first_and_last_prediction_possibly_inverted = [

@@ -1,4 +1,9 @@
 
+task :set_cache => :environment do
+  Question.all.each do |question|
+    question.display_data
+  end
+end
 
 task :get_questions => :environment do
   categories = [
